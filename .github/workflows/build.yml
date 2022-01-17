@@ -1,4 +1,3 @@
-name: Main Workflow
 on:
   push:
     branches:
@@ -8,10 +7,7 @@ on:
 
   pull_request:
       types: [opened, synchronize, reopened]
-      branches: 
-        - master
-        - develop
-        - release
+name: Main Workflow
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
