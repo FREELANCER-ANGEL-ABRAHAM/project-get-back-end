@@ -4,7 +4,7 @@ on:
       - main
       - develop
       - release
-
+      - feature/*
   pull_request:
       types: [opened, synchronize, reopened]
 name: Main Workflow
