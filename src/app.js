@@ -24,5 +24,3 @@ app.use(function (err, req, res, next) {
 app.listen(config.PORT, () =>
   console.log(`Server listening on port ${config.PORT}`),
 );
-
-/*comentario*/
