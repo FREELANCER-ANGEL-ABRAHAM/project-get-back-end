@@ -21,6 +21,7 @@
     "express-jwt": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.6",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "readme-template-generator": "^0.9.11"
   }
 }
