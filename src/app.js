@@ -55,19 +55,10 @@ const upload = multer({
   })
 });
 
-const isRevokedCallback = async function (req, payload, done) {
-  const tokenInHeader = req.headers.authorization.split(' ')[1];
-
-  const token = await Tokens.findOne({ accessToken: tokenInHeader });
-
-  return done(null, !token);
-};
-
 app.use(
   expressjwt({
     secret: config.ACCESS_TOKEN_SECRET,
     algorithms: ['HS256'],
-    isRevoked: isRevokedCallback,
   }).unless(function (req) {
     const invalidRoutes = [
       '/',
@@ -112,7 +103,9 @@ app.get('/api/links', linksController.loadLinksFromDatabase);
 
 app.post('/api/create-link', upload.single('image'), linksController.saveCredentialsLinks);
 
-app.post('/api/update-link', upload.single('image'), linksController.updateLinkFields);
+app.patch('/api/update-link', upload.single('image'), linksController.updateLinkFields);
+
+app.post('/api/delete-link', upload.single('image'), linksController.statusLinksEnable);
 
 
 app.use(function (err, req, res, next) {

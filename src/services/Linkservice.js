@@ -1,6 +1,6 @@
 const config = require('../config');
 const Link = require('../models/Links');
-const { statusEqualsRemoved } = require('../helpers/statusValidation');
+
 
 const modelName = 'Link';
 
@@ -53,7 +53,8 @@ async function findLinks(linksVisibility){
       message: `No items found for visibility: ${linksVisibility}`,
     };
   }
-  const links = Link.find({ visibility: linksVisibility });
+  const links = await Link.paginate({ visibility: linksVisibility});
+
   return links;
 }
 
@@ -88,4 +89,37 @@ async function updateLink(linkData){
   }
 }
 
-module.exports = { savelink, findLinks, updateLink };
+async function statusEqualsEnable(linkData) {
+  const links = await Link.findById(linkData);
+
+  if (links) {
+    if(!['active', 'disable'].includes(linkData.status)){
+      throw {
+        code: 'INVALID_STATUS',
+        message: 'Specified status is not valid',
+      };
+    }
+    links = await Link.findByIdAndUpdate(
+      linkData.id,
+      {
+        name: linkData.name,
+        title: linkData.title,
+        description: linkData.description,
+        btn_name: linkData.btn_name,
+        url: linkData.url,
+        image: linkData.image,
+        visibility: linkData.visibility,
+        status: linkData.status
+      }, {new: true}
+    );
+  }else{
+    throw {
+      code: 'INVALID_DATA',
+      message: 'invalid values for fields provided',
+    };
+  }
+
+  return links;
+}
+
+module.exports = { savelink, findLinks, updateLink, statusEqualsEnable };

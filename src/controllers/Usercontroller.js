@@ -1,13 +1,14 @@
 const { userLogin, changeUserPassword, NewUser } = require('../services/Userservice');
-const { generateTokenPair } = require('../services/Jwtservice');
+const { generateAccessToken, generateRefreshToken } = require('../services/Jwtservice');
 
 async function validateUserCredentials(req, res, next) {
     const credentials = {username: req.body.username, password: req.body.password};
 
     try{
         const user = await userLogin(credentials);
-        const tokens = await generateTokenPair(user);
-        return res.json({ tokens });
+        const accessToken = await generateAccessToken(user);
+        const refreshToken = await generateRefreshToken(user);
+        return res.json({ accessToken: accessToken, refreshToken: refreshToken });
     }catch(err){
         next(err);
     }

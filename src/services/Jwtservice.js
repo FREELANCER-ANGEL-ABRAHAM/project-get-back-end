@@ -1,40 +1,18 @@
 const config = require('../config');
 const jwt = require('jsonwebtoken');
-const Token = require('../models/Token');
 
-async function generateTokenPair(user){
+async function generateAccessToken(user) {
   const accessToken = jwt.sign(user, config.ACCESS_TOKEN_SECRET, {
     expiresIn: '6h',
   });
+  return accessToken;
+}
 
+async function generateRefreshToken(user) {
   const refreshToken = jwt.sign(user, config.REFRESH_TOKEN_SECRET, {
     expiresIn: '1d',
   });
-
-  const tokens = {accessToken: accessToken, refreshToken: refreshToken};
-
-  await saveTokenPair(tokens);
-
-  return tokens;
-}
-
-
-async function saveTokenPair(tokenPair){
-  const token = new Token(tokenPair);
-  token.save();
-}
-
-async function deleteTokenPair(refreshToken) {
-  const deletedTokens = await Token.deleteOne({ refreshToken: refreshToken });
-
-  if (deletedTokens.deletedCount === 0) {
-    throw {
-      code: 'INVALID_TOKEN',
-      message: 'The provided refresh token is no longer valid',
-    };
-  }
-
-  return deletedTokens;
+  return refreshToken;
 }
 
 async function verifyRefreshToken(refreshToken) {
@@ -43,7 +21,7 @@ async function verifyRefreshToken(refreshToken) {
 }
 
 module.exports = {
-  generateTokenPair,
-  deleteTokenPair,
+  generateAccessToken,
+  generateRefreshToken,
   verifyRefreshToken,
 };

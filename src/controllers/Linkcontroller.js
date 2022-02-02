@@ -1,4 +1,4 @@
-const { savelink, findLinks, updateLink } = require('../services/Linkservice');
+const { savelink, findLinks, updateLink, statusEqualsEnable } = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -31,7 +31,8 @@ async function loadLinksFromDatabase(req, res) {
       const visibility = req.query.visibility;
       const links = await findLinks(visibility);
       return res.json({ links });
-    } else {
+    }
+    else {
       const links = await findLinks();
       return res.json({ links });
     }
@@ -71,4 +72,33 @@ async function updateLinkFields(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields};
+async function statusLinksEnable(req, res, next){
+  try{
+    if(!req.body.id){
+        throw {
+          code: 'NO_ID_PROVIDED',
+          message: 'Please provide an ID',
+        };
+    }
+    const linkData = {
+      id: req.body.id,
+      name: req.body.name,
+      title: req.body.title,
+      description: req.body.description,
+      btn_name: req.body.btn_name,
+      url: req.body.url,
+      image: req.file.image,
+      visibility: req.body.visibility,
+      status: req.body.status
+    }
+    if(req.body.status == 'disable'){
+      linkData.visibility = 'hidden';
+    }
+    const link = await statusEqualsEnable(linkData);
+    return res.json({ link });
+  }catch(err){
+    next(err);
+  }
+}
+
+module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields, statusLinksEnable};
