@@ -1,6 +1,8 @@
-const {generateTokenPair, deleteTokenPair, verifyRefreshToken} = require('../services/Jwtservice');
+const {generateAccessToken, generateRefreshToken, verifyRefreshToken} = require('../services/Jwtservice');
 
-async function generateNewAccessToken(req, res, nest) {
+async function generateNewAccessToken(req, res) {
+  let response = {};
+
   try{
     const authHeader = req.headers['authorization'];
     const refreshToken = authHeader.split(' ')[1];
@@ -16,14 +18,19 @@ async function generateNewAccessToken(req, res, nest) {
       delete verify.exp;
       delete verify.nbf;
       delete verify.jti;
-
-      const deletedTokens = await deleteTokenPair(refreshToken);
-      const tokens = await generateTokenPair(verify);
-
-      return res.json({ newTokens: tokens, deleted: deletedTokens });
+      response = {
+        payload: {
+          accessToken: await generateAccessToken(verify),
+          refreshToken: await generateRefreshToken(verify),
+        },
+      };
+      return res.json({ response });
     }
   }catch(err){
-    next(err);
+    return res.json({
+      error: { ...err, message: err.message },
+    })
+    .status(err.status_code || 500);
   }
 }
 

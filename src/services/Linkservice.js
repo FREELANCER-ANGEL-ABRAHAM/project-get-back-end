@@ -90,7 +90,14 @@ async function updateLink(linkData){
 }
 
 async function statusEqualsEnable(linkData) {
-  const links = await Link.findById(linkData);
+  if (linkData.name == undefined || linkData.title == undefined || linkData.description == undefined || linkData.btn_name== undefined || linkData.url == undefined || linkData.image == undefined || linkData.visibility == undefined || linkData.status == undefined) {
+    throw {
+      code: 'MISSING_FIELDS',
+      message: 'Please provide all fields',
+    };
+  }
+
+  let links = await Link.findById(linkData.id);
 
   if (links) {
     if(!['active', 'disable'].includes(linkData.status)){
@@ -98,6 +105,15 @@ async function statusEqualsEnable(linkData) {
         code: 'INVALID_STATUS',
         message: 'Specified status is not valid',
       };
+    }
+    else if(!['visible', 'hidden'].includes(linkData.visibility)){
+      throw {
+        code: 'NO_ITEMS_FOUND',
+        message: `No items found for visibility: ${linkData.visibility}`,
+      };
+    }
+    if(linkData.status == 'disable'){
+      linkData.visibility = 'hidden';
     }
     links = await Link.findByIdAndUpdate(
       linkData.id,

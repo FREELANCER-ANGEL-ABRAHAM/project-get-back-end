@@ -80,19 +80,16 @@ async function statusLinksEnable(req, res, next){
           message: 'Please provide an ID',
         };
     }
-    const linkData = {
+     let linkData = {
       id: req.body.id,
       name: req.body.name,
       title: req.body.title,
       description: req.body.description,
       btn_name: req.body.btn_name,
       url: req.body.url,
-      image: req.file.image,
+      image: req.file.location,
       visibility: req.body.visibility,
       status: req.body.status
-    }
-    if(req.body.status == 'disable'){
-      linkData.visibility = 'hidden';
     }
     const link = await statusEqualsEnable(linkData);
     return res.json({ link });
