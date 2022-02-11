@@ -99,7 +99,7 @@ app.patch('/api/change-password', UserController.updateUserPassword);
 app.post('/api/refresh-token', RefreshTokenController.generateNewAccessToken);
 
 //Links Routes
-app.get('/api/link', linksController.loadLinksFromDatabase);
+app.get('/api/link', linksController.loadLinkFromDatabase);
 
 app.get('/api/links', linksController.loadAllLinksFromDataBase);
 

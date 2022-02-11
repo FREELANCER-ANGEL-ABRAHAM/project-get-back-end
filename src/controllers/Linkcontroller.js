@@ -25,7 +25,7 @@ async function saveCredentialsLinks(req, res, next) {
     }
 }
 
-async function loadLinksFromDatabase(req, res) {
+async function loadLinkFromDatabase(req, res) {
   try {
     const links = await findLink();
     return res.json({ links });
@@ -104,4 +104,4 @@ async function statusLinksEnable(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields, statusLinksEnable, loadAllLinksFromDataBase};
+module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, statusLinksEnable, loadAllLinksFromDataBase};
