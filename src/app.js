@@ -105,7 +105,6 @@ app.post('/api/create-link', upload.single('image'), linksController.saveCredent
 
 app.patch('/api/update-link', upload.single('image'), linksController.updateLinkFields);
 
-app.post('/api/delete-link', upload.single('image'), linksController.statusLinksEnable);
 
 
 app.use(function (err, req, res, next) {
