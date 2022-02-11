@@ -1,4 +1,4 @@
-const { savelink, findLinks, updateLink, statusEqualsEnable } = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink, statusEqualsEnable, findLinksbyName } = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -27,16 +27,28 @@ async function saveCredentialsLinks(req, res, next) {
 
 async function loadLinksFromDatabase(req, res) {
   try {
-    if (req.query) {
-      const visibility = req.query.visibility;
-      const links = await findLinks(visibility);
+    const links = await findLink();
+    return res.json({ links });
+  } catch (err) {
+    return res
+      .json({
+        error: { ...err, message: err.message },
+      })
+      .status(err.status_code || 500);
+  }
+}
+
+async function loadAllLinksFromDataBase(req, res) {
+  try{
+    if (req.query.name) {
+      const name = req.query.name;
+      const links = await findLinksbyName(name);
       return res.json({ links });
-    }
-    else {
+    }else {
       const links = await findLinks();
       return res.json({ links });
     }
-  } catch (err) {
+  }catch(err){
     return res
       .json({
         error: { ...err, message: err.message },
@@ -80,14 +92,8 @@ async function statusLinksEnable(req, res, next){
           message: 'Please provide an ID',
         };
     }
-     let linkData = {
+     const linkData = {
       id: req.body.id,
-      name: req.body.name,
-      title: req.body.title,
-      description: req.body.description,
-      btn_name: req.body.btn_name,
-      url: req.body.url,
-      image: req.file.location,
       visibility: req.body.visibility,
       status: req.body.status
     }
@@ -98,4 +104,4 @@ async function statusLinksEnable(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields, statusLinksEnable};
+module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields, statusLinksEnable, loadAllLinksFromDataBase};

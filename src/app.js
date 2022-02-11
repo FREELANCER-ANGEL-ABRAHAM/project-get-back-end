@@ -64,7 +64,7 @@ app.use(
       '/',
       '/api/login',
       '/api/refresh-token',
-      '/api/links'
+      '/api/link'
     ];
 
     if (invalidRoutes.includes(req.originalUrl)) {
@@ -99,7 +99,9 @@ app.patch('/api/change-password', UserController.updateUserPassword);
 app.post('/api/refresh-token', RefreshTokenController.generateNewAccessToken);
 
 //Links Routes
-app.get('/api/links', linksController.loadLinksFromDatabase);
+app.get('/api/link', linksController.loadLinksFromDatabase);
+
+app.get('/api/links', linksController.loadAllLinksFromDataBase);
 
 app.post('/api/create-link', upload.single('image'), linksController.saveCredentialsLinks);
 

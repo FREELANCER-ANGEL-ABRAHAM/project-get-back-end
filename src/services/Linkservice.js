@@ -1,11 +1,11 @@
 const config = require('../config');
 const Link = require('../models/Links');
-
+const mongoose = require('mongoose');
 
 const modelName = 'Link';
 
 async function savelink(credentials){
-  if (credentials.name == undefined || credentials.title == undefined || credentials.description == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.url == undefined || credentials.image == undefined || credentials.visibility == undefined || credentials.status == undefined) {
+  if (credentials.name == undefined || credentials.title == undefined || credentials.description == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.url == undefined || credentials.image == undefined) {
     throw {
       code: 'MISSING_FIELDS',
       message: 'Please provide all fields',
@@ -22,39 +22,44 @@ async function savelink(credentials){
     }
     else{
       const newLink = new Link(credentials);
-      if(!['visible', 'hidden'].includes(newLink.visibility)) {
-        throw {
-          code: 'INVALID_VISIBILITY',
-          message: 'Specified visibility is not valid',
-        };
-      }
-      else if(!['active', 'disable'].includes(newLink.status)){
-        throw {
-          code: 'INVALID_STATUS',
-          message: 'Specified status is not valid',
-        };
+      if(newLink.visibility == undefined || newLink.status == undefined){
+        newLink.visibility = 'visible';
+        newLink.status = 'disable';
       }
       else{
-        await newLink.save();
-        return newLink;
+        if(!['visible', 'hidden'].includes(newLink.visibility)) {
+          throw {
+            code: 'INVALID_VISIBILITY',
+            message: 'Specified visibility is not valid',
+          };
+        }
+        else if(!['active', 'disable'].includes(newLink.status)){
+          throw {
+            code: 'INVALID_STATUS',
+            message: 'Specified status is not valid',
+          };
+        }
       }
+      await newLink.save();
+      return newLink;
     }
 
   }
 }
 
-async function findLinks(linksVisibility){
-  if(linksVisibility == undefined){
-    linksVisibility = 'visible';
-  }
-  else if (!['visible', 'hidden'].includes(linksVisibility)) {
-    throw {
-      code: 'NO_ITEMS_FOUND',
-      message: `No items found for visibility: ${linksVisibility}`,
-    };
-  }
-  const links = await Link.paginate({ visibility: linksVisibility});
+async function findLinksbyName(linksName){
+    const links = await Link.paginate({ $and: [{ name: new RegExp(linksName, 'i')}, {status: 'active'}] });
 
+    return links;
+}
+
+async function findLink(){
+  const links = await Link.paginate({ status: 'active' });
+  return links;
+}
+
+async function findLinks(){
+  const links = await Link.paginate({ visibility: 'visible' });
   return links;
 }
 
@@ -72,6 +77,18 @@ async function updateLink(linkData){
     };
   }
   else{
+    const verifyStatus = await Link.findOne({status: 'active'});
+
+    if(verifyStatus){
+      throw {
+        code: 'INVALID_DATA',
+        message: 'There is already a link with that status',
+      };
+    }
+
+    if(linkData.status == 'active'){
+      linkData.visibility = 'visible';
+    }
     const link = await Link.findByIdAndUpdate(
       linkData.id,
       {
@@ -90,7 +107,7 @@ async function updateLink(linkData){
 }
 
 async function statusEqualsEnable(linkData) {
-  if (linkData.name == undefined || linkData.title == undefined || linkData.description == undefined || linkData.btn_name== undefined || linkData.url == undefined || linkData.image == undefined || linkData.visibility == undefined || linkData.status == undefined) {
+  if (linkData.status == undefined) {
     throw {
       code: 'MISSING_FIELDS',
       message: 'Please provide all fields',
@@ -106,24 +123,12 @@ async function statusEqualsEnable(linkData) {
         message: 'Specified status is not valid',
       };
     }
-    else if(!['visible', 'hidden'].includes(linkData.visibility)){
-      throw {
-        code: 'NO_ITEMS_FOUND',
-        message: `No items found for visibility: ${linkData.visibility}`,
-      };
-    }
-    if(linkData.status == 'disable'){
+    if(linkData.status == 'disable' || linkData.status == 'active'){
       linkData.visibility = 'hidden';
     }
     links = await Link.findByIdAndUpdate(
       linkData.id,
       {
-        name: linkData.name,
-        title: linkData.title,
-        description: linkData.description,
-        btn_name: linkData.btn_name,
-        url: linkData.url,
-        image: linkData.image,
         visibility: linkData.visibility,
         status: linkData.status
       }, {new: true}
@@ -138,4 +143,4 @@ async function statusEqualsEnable(linkData) {
   return links;
 }
 
-module.exports = { savelink, findLinks, updateLink, statusEqualsEnable };
+module.exports = { savelink, findLinks, updateLink, statusEqualsEnable, findLinksbyName, findLink };
