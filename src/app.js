@@ -64,7 +64,6 @@ app.use(
       '/',
       '/api/login',
       '/api/refresh-token',
-      '/api/links'
     ];
 
     if (invalidRoutes.includes(req.originalUrl)) {
