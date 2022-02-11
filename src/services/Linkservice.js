@@ -5,7 +5,7 @@ const Link = require('../models/Links');
 const modelName = 'Link';
 
 async function savelink(credentials){
-  if (credentials.name == undefined || credentials.title == undefined || credentials.description == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.url == undefined || credentials.image == undefined || credentials.visibility == undefined || credentials.status == undefined) {
+  if (credentials.name == undefined || credentials.title == undefined || credentials.description == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.url == undefined || credentials.image == undefined || credentials.visibility == undefined || credentials.status == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
     throw {
       code: 'MISSING_FIELDS',
       message: 'Please provide all fields',
@@ -58,6 +58,12 @@ async function findLinks(linksVisibility){
   return links;
 }
 
+async function findLink(){
+  const links = await Link.paginate({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
+
+  return links;
+}
+
 async function updateLink(linkData){
   if(!['active', 'disable'].includes(linkData.status)){
     throw {
@@ -82,11 +88,13 @@ async function updateLink(linkData){
         url: linkData.url,
         image: linkData.image,
         visibility: linkData.visibility,
-        status: linkData.status
+        status: linkData.status,
+        detail_result: linkData.detail_result,
+        contain_result: linkData.contain_result
       },{new: true}
     );
     return link;
   }
 }
 
-module.exports = { savelink, findLinks, updateLink };
+module.exports = { savelink, findLinks, updateLink, findLink };

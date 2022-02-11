@@ -10,7 +10,9 @@ const linkSchema = new schema({
   url: {type: String, required: true},
   image: {type: String, required: true},
   visibility: {type: String, required: true},
-  status: {type: String, required: true}
+  status: {type: String, required: true},
+  detail_result: {type: String, required: true},
+  contain_result: {type: String, required: true}
 });
 
 linkSchema.plugin(mongoosePaginate);

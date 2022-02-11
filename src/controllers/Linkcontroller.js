@@ -1,4 +1,4 @@
-const { savelink, findLinks, updateLink } = require('../services/Linkservice');
+const { savelink, findLinks, updateLink,  findLink } = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -16,7 +16,9 @@ async function saveCredentialsLinks(req, res, next) {
         url: req.body.url,
         image: req.file.location,
         visibility: req.body.visibility,
-        status: req.body.status
+        status: req.body.status,
+        detail_result: req.body.detail_result,
+        contain_result: req.body.contain_result
       };
       const link = await savelink(credentials);
       return res.json({ link });
@@ -45,6 +47,19 @@ async function loadLinksFromDatabase(req, res) {
   }
 }
 
+async function loadLinkFromDatabase(req, res) {
+  try {
+      const links = await findLink();
+      return res.json({ links });
+  } catch (err) {
+    return res
+      .json({
+        error: { ...err, message: err.message },
+      })
+      .status(err.status_code || 500);
+  }
+}
+
 async function updateLinkFields(req, res, next){
   try{
     if(!req.body.id){
@@ -63,7 +78,9 @@ async function updateLinkFields(req, res, next){
       url: req.body.url,
       image: req.file.image,
       visibility: req.body.visibility,
-      status: req.body.status
+      status: req.body.status,
+      detail_result: req.body.detail_result,
+      contain_result: req.body.contain_result
     }
     const link = await updateLink(linkData);
     return res.json({ link });
@@ -72,4 +89,4 @@ async function updateLinkFields(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields};
+module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields, loadLinkFromDatabase};
