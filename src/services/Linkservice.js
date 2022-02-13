@@ -49,7 +49,7 @@ async function findLinks(){
 }
 
 async function findLink(){
-  const links = await Link.paginate({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
+  const links = await Link.findOne({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
 
   return links;
 }

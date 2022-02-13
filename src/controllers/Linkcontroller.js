@@ -27,7 +27,7 @@ async function saveCredentialsLinks(req, res, next) {
     }
 }
 
-async function loadLinkFromDatabase(res) {
+async function loadLinkFromDatabase(req, res) {
   try {
     const links = await findLink();
     return res.json({ links });
