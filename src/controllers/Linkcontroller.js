@@ -1,4 +1,4 @@
-const { savelink, findLinks, findLink, updateLink, statusEqualsEnable, findLinksbyName } = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink, deleteLink, findLinksbyName } = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -84,24 +84,13 @@ async function updateLinkFields(req, res, next){
   }
 }
 
-async function statusLinksEnable(req, res, next){
+async function deleteLinkFromDatabase(req, res, next){
   try{
-    if(!req.body.id){
-        throw {
-          code: 'NO_ID_PROVIDED',
-          message: 'Please provide an ID',
-        };
-    }
-     const linkData = {
-      id: req.body.id,
-      visibility: req.body.visibility,
-      status: req.body.status
-    }
-    const link = await statusEqualsEnable(linkData);
+    const link = await deleteLink(req);
     return res.json({ link });
   }catch(err){
     next(err);
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, statusLinksEnable, loadAllLinksFromDataBase};
+module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase};

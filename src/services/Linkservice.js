@@ -106,41 +106,25 @@ async function updateLink(linkData){
   }
 }
 
-async function statusEqualsEnable(linkData) {
-  if (linkData.status == undefined) {
+async function deleteLink(req) {
+  if (req.params.id == undefined) {
     throw {
-      code: 'MISSING_FIELDS',
-      message: 'Please provide all fields',
+      code: 'NO_ID_PROVIDED',
+      message: 'Please provide an ID',
     };
   }
 
-  let links = await Link.findById(linkData.id);
+  const linkStatus = { status: 'removed' };
 
-  if (links) {
-    if(!['active', 'disable'].includes(linkData.status)){
-      throw {
-        code: 'INVALID_STATUS',
-        message: 'Specified status is not valid',
-      };
-    }
-    if(linkData.status == 'disable' || linkData.status == 'active'){
-      linkData.visibility = 'hidden';
-    }
-    links = await Link.findByIdAndUpdate(
-      linkData.id,
-      {
-        visibility: linkData.visibility,
-        status: linkData.status
-      }, {new: true}
-    );
-  }else{
-    throw {
-      code: 'INVALID_DATA',
-      message: 'invalid values for fields provided',
-    };
-  }
+  const link = await Link.findByIdAndUpdate(
+    req.params.id,
+    linkStatus,
+    {
+      new: true,
+    },
+  );
 
-  return links;
+  return link;
 }
 
-module.exports = { savelink, findLinks, updateLink, statusEqualsEnable, findLinksbyName, findLink };
+module.exports = { savelink, findLinks, updateLink, deleteLink, findLinksbyName, findLink };
