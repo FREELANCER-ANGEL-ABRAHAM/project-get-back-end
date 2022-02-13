@@ -100,6 +100,11 @@ app.post('/api/refresh-token', RefreshTokenController.generateNewAccessToken);
 
 //Links Routes
 app.get('/api/link', linksController.loadLinkFromDatabase);
+<<<<<<< HEAD
+=======
+
+app.get('/api/links', linksController.loadAllLinksFromDataBase);
+>>>>>>> feature/G-2/delete_and_search_links
 
 app.post('/api/create-link', upload.single('image'), linksController.saveCredentialsLinks);
 

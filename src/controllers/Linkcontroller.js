@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const { savelink, findLinks, findLink, updateLink} = require('../services/Linkservice');
+=======
+const { savelink, findLinks, findLink, updateLink, deleteLink, findLinksbyName } = require('../services/Linkservice');
+>>>>>>> feature/G-2/delete_and_search_links
 
 async function saveCredentialsLinks(req, res, next) {
     try{
