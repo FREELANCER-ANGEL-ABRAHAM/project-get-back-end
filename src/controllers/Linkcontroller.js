@@ -1,4 +1,4 @@
-const { savelink, findLinks, updateLink,  findLink } = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -18,7 +18,7 @@ async function saveCredentialsLinks(req, res, next) {
         visibility: req.body.visibility,
         status: req.body.status,
         detail_result: req.body.detail_result,
-        contain_result: req.body.contain_result
+        contain_result: req.body.contain_result,
       };
       const link = await savelink(credentials);
       return res.json({ link });
@@ -27,17 +27,10 @@ async function saveCredentialsLinks(req, res, next) {
     }
 }
 
-async function loadLinksFromDatabase(req, res) {
+async function loadLinkFromDatabase(res) {
   try {
-    if (req.query) {
-      const visibility = req.query.visibility;
-      const links = await findLinks(visibility);
-      return res.json({ links });
-    }
-    else {
-      const links = await findLinks();
-      return res.json({ links });
-    }
+    const links = await findLink();
+    return res.json({ links });
   } catch (err) {
     return res
       .json({
@@ -47,11 +40,17 @@ async function loadLinksFromDatabase(req, res) {
   }
 }
 
-async function loadLinkFromDatabase(req, res) {
-  try {
-      const links = await findLink();
+async function loadAllLinksFromDataBase(req, res) {
+  try{
+    if (req.query.name) {
+      const name = req.query.name;
+      const links = await findLinksbyName(name);
       return res.json({ links });
-  } catch (err) {
+    }else {
+      const links = await findLinks();
+      return res.json({ links });
+    }
+  }catch(err){
     return res
       .json({
         error: { ...err, message: err.message },
@@ -68,25 +67,27 @@ async function updateLinkFields(req, res, next){
           message: 'Please provide an ID',
         };
     }
+    const linkData = { ...req.body, };
 
-    const linkData = {
-      id: req.body.id,
-      name: req.body.name,
-      title: req.body.title,
-      description: req.body.description,
-      btn_name: req.body.btn_name,
-      url: req.body.url,
-      image: req.file.image,
-      visibility: req.body.visibility,
-      status: req.body.status,
-      detail_result: req.body.detail_result,
-      contain_result: req.body.contain_result
+    if(req.file){
+      linkData.image = req.file.image;
     }
+
     const link = await updateLink(linkData);
+    return res.json({ link });
+
+  }catch(err){
+    next(err);
+  }
+}
+
+async function deleteLinkFromDatabase(req, res, next){
+  try{
+    const link = await deleteLink(req);
     return res.json({ link });
   }catch(err){
     next(err);
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinksFromDatabase, updateLinkFields, loadLinkFromDatabase};
+module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase};
