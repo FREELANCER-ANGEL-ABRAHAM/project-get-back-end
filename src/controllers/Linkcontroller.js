@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const { savelink, findLinks, findLink, updateLink} = require('../services/Linkservice');
-=======
-const { savelink, findLinks, findLink, updateLink, deleteLink, findLinksbyName } = require('../services/Linkservice');
->>>>>>> feature/G-2/delete_and_search_links
+const { savelink, findLinks, findLink, updateLink, findLinksbyName, deleteLink} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -86,10 +82,10 @@ async function updateLinkFields(req, res, next){
 }
 
 async function deleteLinkFromDatabase(req, res, next){
-  try{
+  try {
     const link = await deleteLink(req);
     return res.json({ link });
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 }

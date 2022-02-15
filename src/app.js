@@ -100,16 +100,14 @@ app.post('/api/refresh-token', RefreshTokenController.generateNewAccessToken);
 
 //Links Routes
 app.get('/api/link', linksController.loadLinkFromDatabase);
-<<<<<<< HEAD
-=======
 
 app.get('/api/links', linksController.loadAllLinksFromDataBase);
->>>>>>> feature/G-2/delete_and_search_links
 
 app.post('/api/create-link', upload.single('image'), linksController.saveCredentialsLinks);
 
 app.patch('/api/update-link', upload.single('image'), linksController.updateLinkFields);
 
+app.delete('/api/delete-link/:id', linksController.deleteLinkFromDatabase);
 
 
 app.use(function (err, req, res, next) {
