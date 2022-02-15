@@ -3,12 +3,11 @@ const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 
 async function userLogin(credentials){
-  const user = await User.findOne({ username: credentials.username });
-
+  const user = await User.findOne({ username: credentials.username.toString() });
   if(!user){
     throw new Error( `Invalid Credentials, don't have user with that name`);
   }
-  else if(!(await bcrypt.compare(credentials.password, user.password))){
+  else if(!(await bcrypt.compare(credentials.password.toString(), user.password.toString() ))){
     throw new Error( `Invalid Credentials, passwords don't match `);
   }
 

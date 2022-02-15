@@ -2,7 +2,7 @@ const { userLogin, changeUserPassword, NewUser } = require('../services/Userserv
 const { generateAccessToken, generateRefreshToken } = require('../services/Jwtservice');
 
 async function validateUserCredentials(req, res, next) {
-    const credentials = {username: req.body.username, password: req.body.password};
+    const credentials = {username: req.body.username.toString(), password: req.body.password.toString()};
 
     try{
         const user = await userLogin(credentials);
@@ -15,7 +15,7 @@ async function validateUserCredentials(req, res, next) {
 }
 
 async function updateUserPassword(req, res, next) {
-    const credentials = {username: req.body.username, password: req.body.password, secret: req.body.secret};
+    const credentials = {username: req.body.username.toString(), password: req.body.password.toString(), secret: req.body.secret.toString()};
 
     try{
         await changeUserPassword(credentials);
@@ -26,7 +26,7 @@ async function updateUserPassword(req, res, next) {
 }
 
 async function createNewUser(req, res, next) {
-  const credentials = {username: req.body.username, password: req.body.password, secret: req.body.secret};
+  const credentials = {username: req.body.username.toString(), password: req.body.password.toString(), secret: req.body.secret.toString()};
 
   try{
       await NewUser(credentials);
