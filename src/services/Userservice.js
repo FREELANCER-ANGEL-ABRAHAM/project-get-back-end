@@ -6,18 +6,10 @@ async function userLogin(credentials){
   const user = await User.findOne({ username: credentials.username });
 
   if(!user){
-    throw{
-      code: 'INVALID_LOGIN',
-      message: 'Invalid Credentials',
-      status_code: 401,
-    };
+    throw new Error( 'Invalid Credentials');
   }
   else if(!(await bcrypt.compare(credentials.password, user.password))){
-    throw {
-      code: 'INVALID_LOGIN',
-      message: 'Invalid credentials',
-      status_code: 401,
-    };
+    throw new Error( 'Invalid Credentials');
   }
 
   return user.toObject();
@@ -25,25 +17,16 @@ async function userLogin(credentials){
 
 async function changeUserPassword(credentials){
   if (credentials.secret !== config.ADMIN_RESET_SECRET) {
-    throw {
-      code: 'INVALID_SECRET',
-      message: 'The provided secret is not valid.',
-    };
+    throw new Error( 'The provided secret is not valid');
   }
   else if (!credentials.username || !credentials.password) {
-    throw {
-      code: 'MISSING_FIELDS',
-      message: 'Please provide username and password',
-    };
+    throw new Error( 'Please provide username and password');
   }
   else{
     const user = await User.findOne({ username: credentials.username });
 
     if (!user) {
-      throw {
-        code: 'INVALID_DATA',
-        message: 'User not found',
-      };
+      throw new Error( 'User not found');
     }
 
     user.password = credentials.password;
@@ -56,25 +39,16 @@ async function changeUserPassword(credentials){
 
 async function NewUser(credentials){
   if (credentials.secret !== config.ADMIN_RESET_SECRET) {
-    throw {
-      code: 'INVALID_SECRET',
-      message: 'The provided secret is not valid.',
-    };
+    throw new Error( 'The provided secret is not valid');
   }
   else if (!credentials.username || !credentials.password) {
-    throw {
-      code: 'MISSING_FIELDS',
-      message: 'Please provide username and password',
-    };
+    throw new Error( 'Please provide username and password');
   }
   else{
     const user = await User.findOne({ username: credentials.username });
 
     if (user) {
-      throw {
-        code: 'INVALID_DATA',
-        message: 'There is already a user with that name',
-      };
+      throw new Error( 'There is already a user with that name');
     }
 
     const {username, password} = credentials;

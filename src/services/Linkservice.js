@@ -24,22 +24,22 @@ async function savelink(credentials){
       else if(!['active', 'disable'].includes(newLink.status)){
         throw new Error( 'Specified status is not valid' );
       }
-      await newLink.save();
+      newLink.save();
       return newLink;
     }
   }
 }
 
 async function findLinksbyName(linkName){
-  return await Link.paginate({ $and: [ {name: {$regex: linkName, $options: 'i'}}, {visibility: 'visible'}  ]});
+  return Link.paginate({ $and: [ {name: {$regex: linkName, $options: 'i'}}, {visibility: 'visible'}  ]});
 }
 
 async function findLink(){
-  return await Link.findOne({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
+  return Link.findOne({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
 }
 
 async function findLinks(){
-  return await Link.paginate({ $and: [ {visibility: 'visible'}, { $or: [{status: 'active'}, {status: 'disable'}]} ]});
+  return Link.paginate({ $and: [ {visibility: 'visible'}, { $or: [{status: 'active'}, {status: 'disable'}]} ]});
 }
 
 async function updateLink(linkData){
@@ -59,7 +59,7 @@ async function updateLink(linkData){
     }
   }
 
-  return await Link.findByIdAndUpdate(
+  return Link.findByIdAndUpdate(
     linkData.id,
     {
       name: linkData.name,
@@ -83,7 +83,7 @@ async function deleteLink(req) {
       visibility: 'hidden',
     };
 
-    return await Link.findByIdAndUpdate(
+    return Link.findByIdAndUpdate(
       req.params.id,
       linkStatus,
       {
