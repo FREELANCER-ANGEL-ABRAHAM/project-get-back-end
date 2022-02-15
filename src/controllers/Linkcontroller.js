@@ -3,7 +3,7 @@ const { savelink, findLinks, findLink, updateLink, findLinksbyName, deleteLink} 
 async function saveCredentialsLinks(req, res, next) {
     try{
       if (!req.file) {
-        throw new Error( 'Please provide an image file');{code: 'NO_FILE_PROVIDED'}
+        throw new Error( 'Please provide an image file');{code}
       }
       const credentials = {
         name: req.body.name,
@@ -59,7 +59,7 @@ async function loadAllLinksFromDataBase(req, res) {
 async function updateLinkFields(req, res, next){
   try{
     if(!req.body.id){
-        throw new Error( 'Please provide an ID');{code: 'NO_ID_PROVIDED'}
+        throw new Error( 'Please provide an ID');{code}
     }
     const linkData = { ...req.body, };
 
