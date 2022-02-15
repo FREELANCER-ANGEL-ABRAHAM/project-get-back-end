@@ -3,19 +3,13 @@ const Link = require('../models/Links');
 
 async function savelink(credentials){
   if (credentials.name == undefined || credentials.title == undefined || credentials.description == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.image == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
-    throw {
-      code: 'MISSING_FIELDS',
-      message: 'Please provide all fields',
-    };
+    throw new Error( 'Please provide all fields');{code: 'MISSING_FIELDS'}
   }
   else{
     const link = await Link.findOne({name: credentials.name});
 
     if(link){
-      throw {
-        code: 'INVALID_DATA',
-        message: 'There is already a link with that name',
-      };
+      throw new Error( 'There is already a link with that name');{code: 'INVALID_DATA'}
     }
     else{
       if(credentials.visibility == undefined || credentials.status == undefined){
@@ -25,16 +19,10 @@ async function savelink(credentials){
 
       const newLink = new Link(credentials);
       if(!['visible', 'hidden'].includes(newLink.visibility)) {
-        throw {
-          code: 'INVALID_VISIBILITY',
-          message: 'Specified visibility is not valid',
-        };
+        throw new Error( 'Specified visibility is not valid');{code: 'INVALID_VISIBILITY'}
       }
       else if(!['active', 'disable'].includes(newLink.status)){
-        throw {
-          code: 'INVALID_STATUS',
-          message: 'Specified status is not valid',
-        };
+        throw new Error( 'Specified status is not valid');{code: 'INVALID_STATUS'}
       }
       await newLink.save();
       return newLink;
@@ -61,26 +49,17 @@ async function findLinks(){
 
 async function updateLink(linkData){
   if(!['active', 'disable'].includes(linkData.status)){
-    throw {
-      code: 'INVALID_STATUS',
-      message: 'Specified status is not valid',
-    };
+    throw new Error( 'Specified status is not valid');{code: 'INVALID_STATUS'}
   }
   else if(!['visible', 'hidden'].includes(linkData.visibility)){
-    throw {
-      code: 'INVALID_VISIBILITY',
-      message: `Specified visibility is not valid for: ${linkData.visibility}`,
-    };
+    throw new Error( `Specified visibility is not valid for: ${linkData.visibility}`);{code: 'INVALID_VISIBILITY'}
   }
 
   const linkActive = await Link.findOne({ status: 'active' });
   if(linkData.status == 'active'){
     if(linkActive){
       if(linkActive._id != linkData.id){
-        throw {
-          code: 'INVALID_DATA',
-          message: 'There is already a link active',
-        };
+        throw new Error( 'There is already a link active');{code: 'INVALID_DATA'}
       }
     }
   }
