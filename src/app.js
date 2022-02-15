@@ -74,11 +74,7 @@ app.use(
     return invalidRoutes.some((route) => {
       const [method, originalUrl] = route.split(' ');
 
-      if (method === req.method && originalUrl === req.originalUrl) {
-        return true;
-      } else {
-        return false;
-      }
+      return method === req.method && originalUrl === req.originalUrl ? true : false;
     });
   }),
 );
