@@ -9,10 +9,7 @@ async function generateNewAccessToken(req, res) {
     const verify = await verifyRefreshToken(refreshToken);
 
     if(!verify){
-      throw {
-        code: 'INVALID_TOKEN',
-        message: 'The provided refresh token is not valid.',
-      };
+      throw new Error( 'The provided refresh token is not valid.');
     } else{
       delete verify.iat;
       delete verify.exp;
