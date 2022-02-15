@@ -6,10 +6,10 @@ async function userLogin(credentials){
   const user = await User.findOne({ username: credentials.username });
 
   if(!user){
-    throw new Error( 'Invalid Credentials');
+    throw new Error( `Invalid Credentials, don't have user with that name`);
   }
   else if(!(await bcrypt.compare(credentials.password, user.password))){
-    throw new Error( 'Invalid Credentials');
+    throw new Error( `Invalid Credentials, passwords don't match `);
   }
 
   return user.toObject();
