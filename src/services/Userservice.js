@@ -36,28 +36,4 @@ async function changeUserPassword(credentials){
 
 }
 
-async function NewUser(credentials){
-  if (credentials.secret !== config.ADMIN_RESET_SECRET) {
-    throw new Error( 'The provided secret is not valid');
-  }
-  else if (!credentials.username || !credentials.password) {
-    throw new Error( 'Please provide username and password');
-  }
-  else{
-    const user = await User.findOne({ username: credentials.username });
-
-    if (user) {
-      throw new Error( 'There is already a user with that name');
-    }
-
-    const {username, password} = credentials;
-    const newUser = new User({ username, password });
-
-    await newUser.save();
-
-    return newUser;
-  }
-}
-
-
-module.exports = { userLogin, changeUserPassword, NewUser,  };
+module.exports = { userLogin, changeUserPassword,  };

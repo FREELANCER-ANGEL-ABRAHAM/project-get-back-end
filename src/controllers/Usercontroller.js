@@ -1,4 +1,4 @@
-const { userLogin, changeUserPassword, NewUser } = require('../services/Userservice');
+const { userLogin, changeUserPassword } = require('../services/Userservice');
 const { generateAccessToken, generateRefreshToken } = require('../services/Jwtservice');
 
 async function validateUserCredentials(req, res, next) {
@@ -25,15 +25,4 @@ async function updateUserPassword(req, res, next) {
     }
 }
 
-async function createNewUser(req, res, next) {
-  const credentials = {username: req.body.username.toString(), password: req.body.password.toString(), secret: req.body.secret.toString()};
-
-  try{
-      await NewUser(credentials);
-      return res.json({message: "User Created Successfully"});
-  }catch(err){
-      next(err);
-  }
-}
-
-module.exports = {validateUserCredentials, updateUserPassword, createNewUser};
+module.exports = {validateUserCredentials, updateUserPassword };

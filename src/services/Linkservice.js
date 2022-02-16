@@ -2,7 +2,7 @@ const config = require('../config');
 const Link = require('../models/Links');
 
 async function savelink(credentials){
-  if (credentials.name == undefined || credentials.title == undefined || credentials.description == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.image == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
+  if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
     throw new Error( 'Please provide all fields');
   }
   else{

@@ -87,8 +87,6 @@ app.get('/', cors(), (req, res) => {
 //Users Routes
 app.post('/api/login', UserController.validateUserCredentials);
 
-app.post('/api/register', UserController.createNewUser);
-
 app.patch('/api/change-password', UserController.updateUserPassword);
 
 //Token Route

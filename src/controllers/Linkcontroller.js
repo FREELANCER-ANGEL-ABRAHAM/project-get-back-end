@@ -2,21 +2,16 @@ const { savelink, findLinks, findLink, updateLink, findLinksbyName, deleteLink} 
 
 async function saveCredentialsLinks(req, res, next) {
     try{
-      if (!req.file) {
-        throw new Error( 'Please provide an image file');
+      const credentials = { ...req.body };
+      if(!req.body.title){
+        credentials.title = "";
       }
-      const credentials = {
-        name: req.body.name,
-        title: req.body.title,
-        description: req.body.description,
-        btn_name: req.body.btn_name,
-        url: req.body.url,
-        image: req.file.location,
-        visibility: req.body.visibility,
-        status: req.body.status,
-        detail_result: req.body.detail_result,
-        contain_result: req.body.contain_result,
-      };
+      if(!req.body.description){
+        credentials.description = "";
+      }
+      if(!req.body.image){
+        credentials.image = "";
+      }
       const link = await savelink(credentials);
       return res.json({ link });
     }catch(err){
@@ -64,7 +59,7 @@ async function updateLinkFields(req, res, next){
     const linkData = { ...req.body, };
 
     if(req.file){
-      linkData.image = req.file.image;
+      linkData.image = req.file.location;
     }
 
     const link = await updateLink(linkData);
