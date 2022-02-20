@@ -97,6 +97,8 @@ app.get('/api/link', linksController.loadLinkFromDatabase);
 
 app.get('/api/links', linksController.loadAllLinksFromDataBase);
 
+app.get('/api/link_id/:id', linksController.loadLinkById);
+
 app.post('/api/create-link', upload.single('image'), linksController.saveCredentialsLinks);
 
 app.patch('/api/update-link', upload.single('image'), linksController.updateLinkFields);

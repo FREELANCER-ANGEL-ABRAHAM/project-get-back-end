@@ -1,17 +1,18 @@
-const { savelink, findLinks, findLink, updateLink, findLinksbyName, deleteLink} = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
       const credentials = { ...req.body };
+      if(!req.file){
+        credentials.image = "";
+      }
       if(!req.body.title){
         credentials.title = "";
       }
       if(!req.body.description){
         credentials.description = "";
       }
-      if(!req.body.image){
-        credentials.image = "";
-      }
+      credentials.image = req.file.location;
       const link = await savelink(credentials);
       return res.json({ link });
     }catch(err){
@@ -32,14 +33,31 @@ async function loadLinkFromDatabase(req, res) {
   }
 }
 
+async function loadLinkById(req, res) {
+  try {
+    const id = req.params.id;
+    const links = await findLinkById(id);
+    return res.json({ links });
+  } catch (err) {
+    return res
+      .json({
+        error: { ...err, message: err.message },
+      })
+      .status(err.status_code || 500);
+  }
+}
+
 async function loadAllLinksFromDataBase(req, res) {
   try{
     if (req.query.name) {
+      const page = Number(req.query.page || 1);
+      const limit = Number(req.query.limit || 9);
       const name = req.query.name;
-      const links = await findLinksbyName(name);
+      const links = await findLinksbyName(name, page, limit);
       return res.json({ links });
     }else {
-      const links = await findLinks();
+      const page = Number(req.query.page || 1);
+      const links = await findLinks(page);
       return res.json({ links });
     }
   }catch(err){
@@ -79,4 +97,4 @@ async function deleteLinkFromDatabase(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase};
+module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};
