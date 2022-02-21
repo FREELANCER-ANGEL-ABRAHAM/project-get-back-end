@@ -44,7 +44,7 @@ async function saveLogo(credentials){
 
   const logo = await Logo.findOne({ status: 'active' });
   if(logo){
-    const res = updateLogo();
+    updateLogo();
   }
   const newLogo = new Logo(credentials);
   newLogo.save();
