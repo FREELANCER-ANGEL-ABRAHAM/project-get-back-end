@@ -1,5 +1,6 @@
 const config = require('../config');
 const Link = require('../models/Links');
+const Logo = require('../models/Logo');
 
 async function savelink(credentials){
   if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
@@ -30,12 +31,38 @@ async function savelink(credentials){
   }
 }
 
+async function saveLogo(credentials){
+  if(!credentials.image){
+    throw new Error( 'Please provide an image');
+  }
+  if(!credentials.status){
+    throw new Error( 'Please provide an status');
+  }
+  else if(!['active', 'disable'].includes(credentials.status)){
+    throw new Error( 'Specified status is not valid' );
+  }
+
+  const logo = await Logo.findOne({ status: 'active' });
+  if(logo){
+    const res = updateLogo();
+  }
+  const newLogo = new Logo(credentials);
+  newLogo.save();
+  return newLogo;
+}
+
+
+
 async function findLinksbyName(linkName, page, limit){
   return Link.paginate({ $and: [ {name: {$regex: linkName, $options: 'i'}}, {visibility: 'visible'}  ]}, {page, limit});
 }
 
 async function findLink(){
   return Link.findOne({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
+}
+
+async function findLogo(){
+  return Logo.findOne({status: 'active'});
 }
 
 async function findLinkById(id){
@@ -46,6 +73,9 @@ async function findLinks(page){
   return Link.paginate({ $and: [ {visibility: 'visible'}, { $or: [{status: 'active'}, {status: 'disable'}]} ]}, {page, limit: 9, sort: {status: 'asc'}});
 }
 
+async function updateLogo(){
+  return Logo.updateOne({status: 'active'},{ status: 'disable'});
+}
 async function updateLink(linkData){
   if(linkData.status && linkData.visibility){
     if(!['active', 'disable'].includes(linkData.status)){
@@ -113,4 +143,4 @@ async function deleteLink(req) {
     );
 }
 
-module.exports = { savelink, findLinks, updateLink, findLink, findLinksbyName, deleteLink, findLinkById};
+module.exports = { savelink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo};

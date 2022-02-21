@@ -1,4 +1,4 @@
-const { savelink, findLinks, findLink, updateLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink, findLogo, saveLogo, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -18,6 +18,33 @@ async function saveCredentialsLinks(req, res, next) {
     }catch(err){
         next(err);
     }
+}
+
+async function saveCredentialsLogo(req, res, next){
+  try {
+    const credentials = { image: req.file.location};
+    credentials.status = req.body.status;
+    if(credentials.status == undefined){
+      credentials.status = 'active';
+    }
+    const logo = await saveLogo(credentials);
+    return res.json({ logo });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function loadLogoFromDatabase(req, res) {
+  try {
+    const logo = await findLogo();
+    return res.json({ logo });
+  } catch (err) {
+    return res
+      .json({
+        error: { ...err, message: err.message },
+      })
+      .status(err.status_code || 500);
+  }
 }
 
 async function loadLinkFromDatabase(req, res) {
@@ -97,4 +124,4 @@ async function deleteLinkFromDatabase(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLinkFromDatabase, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};
+module.exports = { saveCredentialsLinks, loadLogoFromDatabase, loadLinkFromDatabase, saveCredentialsLogo, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};
