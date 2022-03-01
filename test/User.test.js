@@ -24,7 +24,6 @@ describe ('USER Api', () => {
           request.post(`${TESTING_URL}/api/login`, {
             json: logincredentials
           }, (_, response) => {
-            //console.log(response);
             expect(response.body.error.message).to.equal(`Invalid Credentials, don't have user with that name`)
             done();
           })
@@ -62,7 +61,6 @@ describe ('USER Api', () => {
           request.post(`${TESTING_URL}/api/login`, {
             json: withoutPassword
           }, (_, response) => {
-            //console.log(response);
             expect(response.body.error.message).to.equal(`Please provide a password`);
             done();
           })
@@ -72,7 +70,6 @@ describe ('USER Api', () => {
           request.post(`${TESTING_URL}/api/login`, {
             json: withoutUsername
           }, (_, response) => {
-            //console.log(response);
             expect(response.body.error.message).to.equal(`Please provide an username`);
             done();
           })

@@ -16,14 +16,14 @@ async function validateUserCredentials(req, res, next) {
 }
 
 async function updateUserPassword(req, res, next) {
-    const credentials = {username: req.body.username.toString(), password: req.body.password.toString(), secret: req.body.secret.toString()};
+  const credentials = {username: req.body.username, password: req.body.password};
 
-    try{
-        await changeUserPassword(credentials);
-        return res.json({ user: req.user});
-    }catch(err){
-        next(err);
-    }
+  try{
+      await changeUserPassword(credentials);
+      return res.json({ user: req.user});
+  }catch(err){
+      next(err);
+  }
 }
 
 module.exports = {validateUserCredentials, updateUserPassword };

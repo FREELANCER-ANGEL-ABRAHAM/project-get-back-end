@@ -22,10 +22,7 @@ async function userLogin(credentials){
 }
 
 async function changeUserPassword(credentials){
-  if (credentials.secret !== config.ADMIN_RESET_SECRET) {
-    throw new Error( 'The provided secret is not valid');
-  }
-  else if (!credentials.username || !credentials.password) {
+  if (!credentials.username || !credentials.password) {
     throw new Error( 'Please provide username and password');
   }
   else{

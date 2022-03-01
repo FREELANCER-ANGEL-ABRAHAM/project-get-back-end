@@ -18,7 +18,7 @@ const aws = require('aws-sdk');
 const maxFileSize = 6 * 1024 * 1024;
 
 const app = express();
-//app.use(morgan('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -111,8 +111,8 @@ app.patch('/api/update-link', upload.single('image'), linksController.updateLink
 app.delete('/api/delete-link/:id', linksController.deleteLinkFromDatabase);
 
 
+
 app.use(function (err, req, res, next) {
-  //console.error(err.stack);
   res.status(err.status_code || 500).json({
     error: {...err, message: err.message, stack: err.stack},
   });
