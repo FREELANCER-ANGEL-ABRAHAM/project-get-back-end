@@ -3,6 +3,9 @@ const { savelink, findLinks, findLink, updateLink, findLogo, saveLogo, findLinks
 async function saveCredentialsLinks(req, res, next) {
     try{
       const credentials = { ...req.body };
+      if(!req.body.name || !req.body.btn_name || !req.body.url || !req.body.detail_result || !req.body.contain_result){
+        throw new Error( 'These fields must be completed (name, name of button, url, detail of result and contain of result)');
+      }
       if(!req.file){
         credentials.image = "";
       }
@@ -12,7 +15,10 @@ async function saveCredentialsLinks(req, res, next) {
       if(!req.body.description){
         credentials.description = "";
       }
-      credentials.image = req.file.location;
+      if(req.file){
+        credentials.image = req.file.location;
+      }
+
       const link = await savelink(credentials);
       return res.json({ link });
     }catch(err){

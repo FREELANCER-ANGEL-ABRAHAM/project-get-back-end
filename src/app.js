@@ -5,11 +5,11 @@ const cors = require('cors');
 const expressjwt = require('express-jwt');
 const multer = require('multer');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 const UserController = require('./controllers/Usercontroller');
 const RefreshTokenController = require('./controllers/RefreshTokenController');
 const linksController = require('./controllers/Linkcontroller');
-const Tokens = require('./models/Token');
 
 const uuid = require('uuid');
 const mime = require('mime');
@@ -18,7 +18,7 @@ const aws = require('aws-sdk');
 const maxFileSize = 6 * 1024 * 1024;
 
 const app = express();
-
+//app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -112,12 +112,12 @@ app.delete('/api/delete-link/:id', linksController.deleteLinkFromDatabase);
 
 
 app.use(function (err, req, res, next) {
-  console.error(err.stack);
+  //console.error(err.stack);
   res.status(err.status_code || 500).json({
     error: {...err, message: err.message, stack: err.stack},
   });
 });
 
-app.listen(config.PORT, () =>
+module.exports = app.listen(config.PORT, () =>
   console.log(`Server listening on port ${config.PORT}`),
 );

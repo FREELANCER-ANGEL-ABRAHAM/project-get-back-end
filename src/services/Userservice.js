@@ -3,6 +3,13 @@ const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 
 async function userLogin(credentials){
+  if(credentials.username == undefined){
+    throw new Error( 'Please provide an username');
+  }
+  if(credentials.password == undefined){
+    throw new Error( 'Please provide a password');
+  }
+
   const user = await User.findOne({ username: credentials.username.toString() });
   if(!user){
     throw new Error( `Invalid Credentials, don't have user with that name`);
