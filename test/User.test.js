@@ -31,13 +31,6 @@ describe ('USER Api', () => {
       });
 
       describe('LOGIN user missing field', () => {
-        const withoutPassword = {
-          username: "dsvdvsdv"
-        }
-
-        const withoutUsername = {
-          password: "asdads"
-        }
 
         it('Status without password', done => {
           request.post(`${TESTING_URL}/api/login`, {

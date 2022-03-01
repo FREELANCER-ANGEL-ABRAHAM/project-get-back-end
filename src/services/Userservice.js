@@ -22,10 +22,6 @@ async function userLogin(credentials){
 }
 
 async function changeUserPassword(credentials){
-  if (!credentials.username || !credentials.password) {
-    throw new Error( 'Please provide username and password');
-  }
-  else{
     const user = await User.findOne({ username: credentials.username });
 
     if (!user) {
@@ -36,8 +32,6 @@ async function changeUserPassword(credentials){
 
     await user.save();
     return user;
-  }
-
 }
 
 module.exports = { userLogin, changeUserPassword,  };
