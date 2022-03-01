@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const UserController = require('./controllers/Usercontroller');
-const RefreshTokenController = require('./controllers/RefreshTokenController');
+const RefreshTokenController = require('./controllers/RefreshTokencontroller');
 const linksController = require('./controllers/Linkcontroller');
 
 const uuid = require('uuid');
