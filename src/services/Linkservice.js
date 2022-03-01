@@ -1,12 +1,13 @@
 const config = require('../config');
 const Link = require('../models/Links');
+const Logo = require('../models/Logo');
 
 async function savelink(credentials){
   if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
     throw new Error( 'Please provide all fields');
   }
   else{
-    const link = await Link.findOne({name: credentials.name});
+    const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] });
 
     if(link){
       throw new Error( 'There is already a link with that name' );
@@ -30,24 +31,74 @@ async function savelink(credentials){
   }
 }
 
-async function findLinksbyName(linkName){
-  return Link.paginate({ $and: [ {name: {$regex: linkName, $options: 'i'}}, {visibility: 'visible'}  ]});
+async function saveLogo(credentials){
+  if(!credentials.image){
+    throw new Error( 'Please provide an image');
+  }
+  if(!credentials.status){
+    throw new Error( 'Please provide an status');
+  }
+  else if(!['active', 'disable'].includes(credentials.status)){
+    throw new Error( 'Specified status is not valid' );
+  }
+
+  const logo = await Logo.findOne({ status: 'active' });
+  if(logo){
+    updateLogo();
+  }
+  const newLogo = new Logo(credentials);
+  newLogo.save();
+  return newLogo;
+}
+
+
+
+async function findLinksbyName(linkName, page, limit){
+  return Link.paginate({ $and: [ {name: {$regex: linkName, $options: 'i'}}, {visibility: 'visible'}  ]}, {page, limit});
 }
 
 async function findLink(){
   return Link.findOne({ $and: [ {status: 'active'}, {visibility: 'visible'} ] });
 }
 
-async function findLinks(){
-  return Link.paginate({ $and: [ {visibility: 'visible'}, { $or: [{status: 'active'}, {status: 'disable'}]} ]});
+async function findLogo(){
+  return Logo.findOne({status: 'active'});
 }
 
+async function findLinkById(id){
+  return Link.findOne({ _id: id});
+}
+
+async function findLinks(page){
+  return Link.paginate({ $and: [ {visibility: 'visible'}, { $or: [{status: 'active'}, {status: 'disable'}]} ]}, {page, limit: 9, sort: {status: 'asc'}});
+}
+
+async function updateLogo(){
+  return Logo.updateOne({status: 'active'},{ status: 'disable'});
+}
 async function updateLink(linkData){
-  if(!['active', 'disable'].includes(linkData.status)){
-    throw new Error( 'Specified status is not valid' );
+  if(linkData.status && linkData.visibility){
+    if(!['active', 'disable'].includes(linkData.status)){
+      throw new Error( 'Specified status is not valid' );
+    }
+    else if(!['visible', 'hidden'].includes(linkData.visibility)){
+      throw new Error( `Specified visibility is not valid for: ${linkData.visibility}` );
+    }
   }
-  else if(!['visible', 'hidden'].includes(linkData.visibility)){
-    throw new Error( `Specified visibility is not valid for: ${linkData.visibility}` );
+  else{
+    return Link.findByIdAndUpdate(
+      linkData.id,
+      {
+        name: linkData.name,
+        title: linkData.title,
+        description: linkData.description,
+        btn_name: linkData.btn_name,
+        url: linkData.url,
+        image: linkData.image,
+        detail_result: linkData.detail_result,
+        contain_result: linkData.contain_result
+      },{new: true}
+    );
   }
 
   const linkActive = await Link.findOne({ status: 'active' });
@@ -92,4 +143,4 @@ async function deleteLink(req) {
     );
 }
 
-module.exports = { savelink, findLinks, updateLink, findLink, findLinksbyName, deleteLink};
+module.exports = { savelink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo};

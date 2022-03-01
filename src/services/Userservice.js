@@ -3,6 +3,13 @@ const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 
 async function userLogin(credentials){
+  if(credentials.username == undefined){
+    throw new Error( 'Please provide an username');
+  }
+  if(credentials.password == undefined){
+    throw new Error( 'Please provide a password');
+  }
+
   const user = await User.findOne({ username: credentials.username.toString() });
   if(!user){
     throw new Error( `Invalid Credentials, don't have user with that name`);
@@ -15,13 +22,6 @@ async function userLogin(credentials){
 }
 
 async function changeUserPassword(credentials){
-  if (credentials.secret !== config.ADMIN_RESET_SECRET) {
-    throw new Error( 'The provided secret is not valid');
-  }
-  else if (!credentials.username || !credentials.password) {
-    throw new Error( 'Please provide username and password');
-  }
-  else{
     const user = await User.findOne({ username: credentials.username });
 
     if (!user) {
@@ -32,8 +32,6 @@ async function changeUserPassword(credentials){
 
     await user.save();
     return user;
-  }
-
 }
 
 module.exports = { userLogin, changeUserPassword,  };

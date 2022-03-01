@@ -5,11 +5,11 @@ const cors = require('cors');
 const expressjwt = require('express-jwt');
 const multer = require('multer');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 const UserController = require('./controllers/Usercontroller');
 const RefreshTokenController = require('./controllers/RefreshTokenController');
 const linksController = require('./controllers/Linkcontroller');
-const Tokens = require('./models/Token');
 
 const uuid = require('uuid');
 const mime = require('mime');
@@ -64,7 +64,8 @@ app.use(
       '/',
       '/api/login',
       '/api/refresh-token',
-      '/api/link'
+      '/api/link',
+      '/api/logo'
     ];
 
     if (invalidRoutes.includes(req.originalUrl)) {
@@ -97,20 +98,26 @@ app.get('/api/link', linksController.loadLinkFromDatabase);
 
 app.get('/api/links', linksController.loadAllLinksFromDataBase);
 
+app.get('/api/logo', linksController.loadLogoFromDatabase);
+
+app.get('/api/link_id/:id', linksController.loadLinkById);
+
 app.post('/api/create-link', upload.single('image'), linksController.saveCredentialsLinks);
+
+app.post('/api/create-logo', upload.single('image'), linksController.saveCredentialsLogo);
 
 app.patch('/api/update-link', upload.single('image'), linksController.updateLinkFields);
 
 app.delete('/api/delete-link/:id', linksController.deleteLinkFromDatabase);
 
 
+
 app.use(function (err, req, res, next) {
-  console.error(err.stack);
   res.status(err.status_code || 500).json({
     error: {...err, message: err.message, stack: err.stack},
   });
 });
 
-app.listen(config.PORT, () =>
+module.exports = app.listen(config.PORT, () =>
   console.log(`Server listening on port ${config.PORT}`),
 );
