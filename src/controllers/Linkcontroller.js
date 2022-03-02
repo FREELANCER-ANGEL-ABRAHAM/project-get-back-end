@@ -28,7 +28,7 @@ async function saveCredentialsLinks(req, res, next) {
 
 async function saveCredentialsLogo(req, res, next){
   try {
-    const credentials = { image: req.file.location};
+    const credentials = {image: req.file.location};
     credentials.status = req.body.status;
     if(credentials.status == undefined){
       credentials.status = 'active';
