@@ -12,7 +12,7 @@ function connect() {
       if(!err){
         console.log('Connected to database');
       } else{
-        console.error('An error ocurred while connecting to database');
+        console.error('An error ocurred while connecting to database', err);
         process.exit(1);
       }
     },

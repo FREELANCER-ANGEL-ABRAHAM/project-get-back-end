@@ -11,11 +11,11 @@ db.once('open', async function () {
     const result = await User.create([
       {
         username: 'admin1',
-        password: '123456',
+        password: 'HRDg313C4PgCU4rJDjL',
       },
       {
         username: 'admin2',
-        password: '12345',
+        password: 'H42RDgC4PgCU4r24JDjL',
       },
     ]);
 
