@@ -129,18 +129,18 @@ async function updateLink(linkData){
 }
 
 async function deleteLink(req) {
-    const linkStatus = {
-      status: 'removed',
-      visibility: 'hidden',
-    };
+  const linkStatus = {
+    status: 'removed',
+    visibility: 'hidden',
+  };
 
-    return Link.findByIdAndUpdate(
-      req.params.id,
-      linkStatus,
-      {
-        new: true,
-      },
-    );
+  return Link.findByIdAndUpdate(
+    req.params.id,
+    linkStatus,
+    {
+      new: true,
+    },
+  );
 }
 
 module.exports = { savelink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo};
