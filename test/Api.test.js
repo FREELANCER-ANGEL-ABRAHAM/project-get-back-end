@@ -1,7 +1,4 @@
 const expect = require('chai').expect;
-const { response } = require('express');
-const request = require('request');
-const { TESTING_URL } = require('../constants/test');
 const User = require('../src/models/Users');
 const Link = require('../src/models/Links');
 const Logo = require('../src/models/Logo');
