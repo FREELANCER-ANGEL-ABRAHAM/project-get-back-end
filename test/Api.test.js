@@ -1,8 +1,7 @@
 const expect = require('chai').expect;
-const User = require('../src/models/Users');
 const Link = require('../src/models/Links');
 const Logo = require('../src/models/Logo');
-const {login, validateLink, createLogo, updateLink, deleteLink} = require('./provider');
+const {login, validateLink, createLogo, updateLink, deleteLink, changePassword} = require('./provider');
 
 describe('USER', () => {
   describe('LOGIN USER validation ERROR', () => {
@@ -38,21 +37,67 @@ describe('USER', () => {
   describe('LOGIN user successfully data', () => {
     const data = {username: 'testing', password: 'a211sf'}
     it('Successfully login', done => {
-      const userData = new User(data);
-      expect(userData._doc.password).to.equal(data.password);
-      expect(userData._doc.username).to.equal(data.username);
+      const res = login(data);
+      expect(res).to.equal('Login Successfully');
       done();
     })
   });
 
   describe('CHANGE PASSWORD', () => {
-  const data = {username: 'testing', password: 'a211sf'}
-  it('Successfully password change', done => {
-    data.password = 'lolololol';
-    const userData = new User(data);
-    expect(userData._doc.password).to.equal(data.password);
-    done();
-  })
+    it('Error validate provide fields (Username)', done => {
+      const data = {username: 'testing'}
+      const newPassword = 'vdsvdsv';
+      const res = changePassword(data, newPassword);
+      expect(res).to.equal('Please provide all fields');
+      done();
+    })
+
+    it('Error validate provide fields(Password)', done => {
+      const data = {password: 'sdvdsv'}
+      const newPassword = 'psdmv';
+      const res = changePassword(data, newPassword);
+      expect(res).to.equal('Please provide all fields');
+      done();
+    })
+
+    it('Error validate empty fields(username)', done => {
+      const data = {username: '', password: 'sdvdsv'}
+      const newPassword = 'psdmv';
+      const res = changePassword(data, newPassword);
+      expect(res).to.equal('This field must be completed');
+      done();
+    })
+
+    it('Error validate empty fields(password)', done => {
+      const data = {username: 'dsvdsv', password: ''}
+      const newPassword = 'pvbcbcc';
+      const res = changePassword(data, newPassword);
+      expect(res).to.equal('This field must be completed');
+      done();
+    })
+
+    it('Error validate provide a new password', done => {
+      const data = {username: 'dsvdsv', password: 'sgf'}
+      const res = changePassword(data);
+      expect(res).to.equal('Please provide a new password');
+      done();
+    })
+
+    it('Error validate empty data to new password', done => {
+      const data = {username: 'dsvdsv', password: 'sgf'}
+      const newPassword = ''
+      const res = changePassword(data, newPassword);
+      expect(res).to.equal('Please complete a new password');
+      done();
+    })
+
+    it('Successfully password change', done => {
+      const data = {username: 'testing', password: 'a211sf'}
+      const newPassword = 'vdsvdsv';
+      const res = changePassword(data, newPassword);
+      expect(res).to.equal('Update password successfully');
+      done();
+    })
   });
 });
 
@@ -72,6 +117,24 @@ describe('Links', () => {
         }
         const response = validateLink(linkDataError);
         expect(response).to.equal('Please provide all fields');
+        done();
+      });
+
+      it('Error empty data fields', done => {
+        var linkDataError = {
+          name: "",
+          title: "",
+          description: "",
+          btn_name: "",
+          url: "",
+          image: "",
+          visibility: "",
+          status: "",
+          detail_result: "",
+          contain_result: ""
+        }
+        const response = validateLink(linkDataError);
+        expect(response).to.equal('Please complete all fields');
         done();
       });
 
@@ -164,6 +227,26 @@ describe('Links', () => {
         expect(res).to.equal('Please provide an id');
         done();
       })
+
+      it('Wrong id provider', done => {
+        var linkDataError = {
+          id: "0923232s3db",
+          name: "bsf",
+          title: "fsbbsb",
+          description: "sfbsb",
+          btn_name: "sfbsb",
+          url: "sfbfs",
+          image: "sfbs.png",
+          visibility: "visible",
+          status: "active",
+          detail_result: "sdv",
+          contain_result: "1344"
+        };
+        var chanceData = {id: "09232323db", name: "sadsasd" };
+        const res = updateLink(linkDataError,chanceData);
+        expect(res).to.equal('Wrong id provider');
+        done();
+      });
 
       it('Error data validate status field', done => {
         var linkDataError = {

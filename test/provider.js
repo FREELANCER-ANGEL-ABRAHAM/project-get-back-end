@@ -1,45 +1,34 @@
 const { json } = require("body-parser");
 
 function login(dataLogin){
-  try{
-    if(dataLogin.username === undefined){
-      return('Please provide a username');
-    }
-    if(dataLogin.password === undefined){
-      return('Please provide a password');
-    }
-
-    if(dataLogin.username === "" || dataLogin.password ===  ""){
-      return('Thats fields must be completed');
-    }
-    else{
-      return json({ message: 'Login Successfully' });
-    }
-  }catch(err){
-    return err;
+  if(dataLogin.username === undefined){
+    return('Please provide a username');
   }
+  if(dataLogin.password === undefined){
+    return('Please provide a password');
+  }
+  if(dataLogin.username === "" || dataLogin.password ===  ""){
+    return('Thats fields must be completed');
+  }
+  return 'Login Successfully';
 }
 
 function validateLink(dataLink){
-  try {
-    if(dataLink.name === undefined || dataLink.title === undefined || dataLink.description === undefined || dataLink.btn_name === undefined || dataLink.url === undefined || dataLink.detail_result === undefined
-      || dataLink.contain_result === undefined|| dataLink.image === undefined || dataLink.visibility === undefined || dataLink.status === undefined){
-      return 'Please provide all fields';
-    }
-    if(dataLink.name === "" || dataLink.title === "" || dataLink.description === "" || dataLink.btn_name === "" || dataLink.url === "" || dataLink.detail_result === ""
-      || dataLink.contain_result === "" || dataLink.image === "" || dataLink.visibility === "" || dataLink.status === ""){
-      return 'Please complete all fields';
-    }
-    if(!['active', 'disable'].includes(dataLink.status)){
-      return 'Wrong data for status field';
-    }
-    if(!['visible', 'hidden'].includes(dataLink.visibility)){
-      return 'Wrong data for visibility field';
-    }
-    return 'pass';
-  } catch (error) {
-    return error;
+  if(dataLink.name === undefined || dataLink.title === undefined || dataLink.description === undefined || dataLink.btn_name === undefined || dataLink.url === undefined || dataLink.detail_result === undefined
+    || dataLink.contain_result === undefined|| dataLink.image === undefined || dataLink.visibility === undefined || dataLink.status === undefined){
+    return 'Please provide all fields';
   }
+  if(dataLink.name === "" || dataLink.title === "" || dataLink.description === "" || dataLink.btn_name === "" || dataLink.url === "" || dataLink.detail_result === ""
+    || dataLink.contain_result === "" || dataLink.image === "" || dataLink.visibility === "" || dataLink.status === ""){
+    return 'Please complete all fields';
+  }
+  if(!['active', 'disable'].includes(dataLink.status)){
+    return 'Wrong data for status field';
+  }
+  if(!['visible', 'hidden'].includes(dataLink.visibility)){
+    return 'Wrong data for visibility field';
+  }
+  return 'pass';
 }
 
 function updateLink(data, chanceData){
@@ -56,6 +45,22 @@ function updateLink(data, chanceData){
     return 'Wrong id provider';
   }
   return 'successfully update';
+}
+
+function changePassword(data, newPassword){
+  if(data.username === undefined || data.password === undefined){
+    return 'Please provide all fields';
+  }
+  if(data.username === "" || data.password === ""){
+    return 'This field must be completed';
+  }
+  if(newPassword === undefined){
+    return 'Please provide a new password';
+  }
+  if(newPassword === ""){
+    return 'Please complete a new password';
+  }
+  return 'Update password successfully';
 }
 
 function deleteLink(data){
@@ -78,4 +83,4 @@ function createLogo(data){
 }
 
 
-module.exports = { login, createLogo, validateLink, updateLink, deleteLink };
+module.exports = { login, createLogo, validateLink, updateLink, deleteLink, changePassword};
