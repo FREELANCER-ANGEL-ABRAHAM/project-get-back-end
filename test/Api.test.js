@@ -35,7 +35,7 @@ describe('USER', () => {
   });
 
   describe('LOGIN user successfully data', () => {
-    const data = {username: 'testing', password: 'a211sf'}
+    const data = {username: 'testing', password: 'f999jj9fj29jf92huhdfushf'}
     it('Successfully login', done => {
       const res = login(data);
       expect(res).to.equal('Login Successfully');
@@ -46,23 +46,23 @@ describe('USER', () => {
   describe('CHANGE PASSWORD', () => {
     it('Error validate provide fields (Username)', done => {
       const data = {username: 'testing'}
-      const newPassword = 'vdsvdsv';
+      const newPassword = 'vdsvsdvdsvsdvsds1931311dsv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Please provide all fields');
       done();
     })
 
     it('Error validate provide fields(Password)', done => {
-      const data = {password: 'sdvdsv'}
-      const newPassword = 'psdmv';
+      const data = {password: 'sdvd134314134314134fsdfsv'}
+      const newPassword = 'ps134143111fdmv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Please provide all fields');
       done();
     })
 
     it('Error validate empty fields(username)', done => {
-      const data = {username: '', password: 'sdvdsv'}
-      const newPassword = 'psdmv';
+      const data = {username: '', password: 'sdv1413eeds2c2e2cv'}
+      const newPassword = 'psdsdvd1svdsvs113mv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('This field must be completed');
       done();
@@ -70,21 +70,21 @@ describe('USER', () => {
 
     it('Error validate empty fields(password)', done => {
       const data = {username: 'dsvdsv', password: ''}
-      const newPassword = 'pvbcbcc';
+      const newPassword = 'pvbcb1221d1313dcc';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('This field must be completed');
       done();
     })
 
     it('Error validate provide a new password', done => {
-      const data = {username: 'dsvdsv', password: 'sgf'}
+      const data = {username: 'dsvdsv', password: 'd13131d1311ce22sgf'}
       const res = changePassword(data);
       expect(res).to.equal('Please provide a new password');
       done();
     })
 
     it('Error validate empty data to new password', done => {
-      const data = {username: 'dsvdsv', password: 'sgf'}
+      const data = {username: 'dsvdsv', password: 'sgece111ec1e1ef'}
       const newPassword = ''
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Please complete a new password');
@@ -92,7 +92,7 @@ describe('USER', () => {
     })
 
     it('Successfully password change', done => {
-      const data = {username: 'testing', password: 'a211sf'}
+      const data = {username: 'testing', password: 'a21cr22rcr2c21sf'}
       const newPassword = 'vdsvdsv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Update password successfully');
