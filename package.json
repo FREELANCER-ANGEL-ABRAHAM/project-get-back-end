@@ -25,6 +25,7 @@
     "express-jwt": "^6.1.0",
     "fs": "^0.0.1-security",
     "gridfs-stream": "^1.1.1",
+    "jest-config": "^27.5.1",
     "jest-sonar-reporter": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mime": "^3.0.0",
