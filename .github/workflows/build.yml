@@ -43,8 +43,7 @@ jobs:
         cache: 'npm'
     - name: Install Dependencies
       run: npm ci
-    - run: npm run test
-      run: q
+    - run: npm run test --if-present
 
   sonarcloud:
     runs-on: ubuntu-latest
