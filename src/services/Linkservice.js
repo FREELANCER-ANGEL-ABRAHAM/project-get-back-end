@@ -3,12 +3,11 @@ const Link = require('../models/Links');
 const Logo = require('../models/Logo');
 
 async function savelink(credentials){
-  if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined) {
+  if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined || credentials.count_click == undefined) {
     throw new Error( 'Please provide all fields');
   }
   else{
-    const link = Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] });
-
+    const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] });
     if(link){
       throw new Error( 'There is already a link with that name' );
     }
@@ -42,7 +41,7 @@ async function saveLogo(credentials){
     throw new Error( 'Specified status is not valid' );
   }
 
-  const logo = Logo.findOne({ status: 'active' });
+  const logo = await Logo.findOne({ status: 'active' });
   if(logo){
     updateLogo();
   }
@@ -76,6 +75,19 @@ async function findLinks(page){
 async function updateLogo(){
   return Logo.updateOne({status: 'active'},{ status: 'disable'});
 }
+
+async function updateClickLink(linkData){
+  if(linkData.count_click === "" || linkData.count_click === undefined){
+    throw new Error( 'Please provide a data count link' );
+  }
+  return Link.findByIdAndUpdate(
+    linkData.id,
+    {
+      count_click: linkData.count_click
+    }, {new: true}
+  );
+}
+
 async function updateLink(linkData){
   if(linkData.status && linkData.visibility){
     if(!['active', 'disable'].includes(linkData.status)){
@@ -101,7 +113,7 @@ async function updateLink(linkData){
     );
   }
 
-  const linkActive = Link.findOne({ status: 'active' });
+  const linkActive = await Link.findOne({ status: 'active' });
   if(linkData.status == 'active'){
     if(linkActive){
       if(linkActive._id != linkData.id){
@@ -143,4 +155,4 @@ async function deleteLink(req) {
   );
 }
 
-module.exports = { savelink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo};
+module.exports = { savelink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo, updateClickLink};
