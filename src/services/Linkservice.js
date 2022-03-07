@@ -86,6 +86,7 @@ async function updateClickLink(linkData){
       count_click: linkData.count_click
     }, {new: true}
   );
+
 }
 
 async function updateLink(linkData){
