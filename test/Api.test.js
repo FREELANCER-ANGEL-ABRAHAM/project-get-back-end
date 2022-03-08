@@ -2,21 +2,26 @@ const expect = require('chai').expect;
 const Link = require('../src/models/Links');
 const Logo = require('../src/models/Logo');
 const {login, validateLink, createLogo, updateLink, deleteLink, changePassword} = require('./provider');
-const config = require('../src/config');
 
 describe('USER', () => {
   describe('LOGIN USER validation ERROR', () => {
     describe('LOGIN user empty field', () => {
-      it('Message username complete', done => {
-        const logincredentials = { username: "", password: "asdad" }
-        const response = login(logincredentials);
-        expect(response).to.equal('Thats fields must be completed, username');
-        done();
-      })
-      it('Message password complete', done => {
-        const logincredentials = { username: "mmkadv", password: "" }
+      it('Message', done => {
+        const logincredentials = {
+          username: "vadvvvdvav",
+          password: ""
+        }
         const response = login(logincredentials);
         expect(response).to.equal('Thats fields must be completed, password');
+        done();
+      })
+      it('Message', done => {
+        const logincredentials = {
+          username: "",
+          password: "sdvvdssv"
+        }
+        const response = login(logincredentials);
+        expect(response).to.equal('Thats fields must be completed, username');
         done();
       })
     })
@@ -39,7 +44,7 @@ describe('USER', () => {
   });
 
   describe('LOGIN user successfully data', () => {
-    const data = {username: 'testing', password: process.env.pasword_test1}
+    const data = {username: 'testing', password: 'f999jj9fj29jf92huhdfushf'}
     it('Successfully login', done => {
       const res = login(data);
       expect(res).to.equal('Login Successfully');
@@ -50,14 +55,14 @@ describe('USER', () => {
   describe('CHANGE PASSWORD', () => {
     it('Error validate provide fields (Username)', done => {
       const data = {username: 'testing'}
-      const newPassword = process.env.newPassword_Test;
+      const newPassword = 'vdsvsdvdsvsdvsds1931311dsv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Please provide all fields');
       done();
     })
 
     it('Error validate provide fields(Password)', done => {
-      const data = {password: process.env.field_provide_Password}
+      const data = {password: 'sdvd134314134314134fsdfsv'}
       const newPassword = 'ps134143111fdmv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Please provide all fields');
@@ -65,8 +70,8 @@ describe('USER', () => {
     })
 
     it('Error validate empty fields(username)', done => {
-      const data = {username: '', password: process.env.field_empty_password}
-      const newPassword = process.env.newPassword_Test2;
+      const data = {username: '', password: 'sdv1413eeds2c2e2cv'}
+      const newPassword = 'psdsdvd1svdsvs113mv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('This field must be completed');
       done();
@@ -74,21 +79,21 @@ describe('USER', () => {
 
     it('Error validate empty fields(password)', done => {
       const data = {username: 'dsvdsv', password: ''}
-      const newPassword = process.env.newPassword_Test3;
+      const newPassword = 'pvbcb1221d1313dcc';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('This field must be completed');
       done();
     })
 
     it('Error validate provide a new password', done => {
-      const data = {username: 'dsvdsv', password: process.env.field_provide_Password2}
+      const data = {username: 'dsvdsv', password: 'd13131d1311ce22sgf'}
       const res = changePassword(data);
       expect(res).to.equal('Please provide a new password');
       done();
     })
 
     it('Error validate empty data to new password', done => {
-      const data = {username: 'dsvdsv', password: process.env.field_provide_Password3}
+      const data = {username: 'dsvdsv', password: 'sgece111ec1e1ef'}
       const newPassword = ''
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Please complete a new password');
@@ -96,8 +101,8 @@ describe('USER', () => {
     })
 
     it('Successfully password change', done => {
-      const data = {username: 'testing', password: process.env.field_provide_Password4}
-      const newPassword = process.env.newPassword_Test4;
+      const data = {username: 'testing', password: 'a21cr22rcr2c21sf'}
+      const newPassword = 'vdsvdsv';
       const res = changePassword(data, newPassword);
       expect(res).to.equal('Update password successfully');
       done();
