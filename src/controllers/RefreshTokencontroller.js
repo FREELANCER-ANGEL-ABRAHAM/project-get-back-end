@@ -2,7 +2,6 @@ const {generateAccessToken, generateRefreshToken, verifyRefreshToken} = require(
 
 async function generateNewAccessToken(req, res) {
   let response = {};
-
   try{
     const authHeader = req.headers['authorization'];
     const refreshToken = authHeader.split(' ')[1];
@@ -16,10 +15,8 @@ async function generateNewAccessToken(req, res) {
       delete verify.nbf;
       delete verify.jti;
       response = {
-        payload: {
-          accessToken: await generateAccessToken(verify),
-          refreshToken: await generateRefreshToken(verify),
-        },
+        accessToken: await generateAccessToken(verify),
+        refreshToken: await generateRefreshToken(verify),
       };
       return res.json({ response });
     }

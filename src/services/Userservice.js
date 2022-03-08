@@ -22,21 +22,31 @@ async function userLogin(credentials){
 }
 
 async function changeUserPassword(credentials, newPassword){
-    const user = await User.findOne({ username: credentials.username.toString() });
-    if(!user) {
-      throw new Error( 'User not found');
-    }
+  if(credentials.username === undefined){
+    throw new Error( 'username must be provided');
+  }
+  if(credentials.password === undefined){
+    throw new Error( 'actual password must be provided');
+  }
+  if(newPassword === undefined){
+    throw new Error( 'new password must be provided');
+  }
 
-    if(!newPassword){
-      throw new Error( 'Please provide a new password');
-    }
+  const user = await User.findOne({ username: credentials.username.toString() });
+  if(!user) {
+    throw new Error( 'User not found');
+  }
 
-    if(!(await bcrypt.compare(credentials.password.toString(), user.password.toString()))){
-      throw new Error( `Invalid Credentials, passwords don't match `);
-    }
-    user.password = newPassword;
-    await user.save();
-    return 'Updated';
+  if(!newPassword){
+    throw new Error( 'Please provide a new password');
+  }
+
+  if(!(await bcrypt.compare(credentials.password.toString(), user.password.toString()))){
+    throw new Error( `Invalid Credentials, passwords don't match `);
+  }
+  user.password = newPassword;
+  await user.save();
+  return 'Updated';
 }
 
 module.exports = { userLogin, changeUserPassword,  };
