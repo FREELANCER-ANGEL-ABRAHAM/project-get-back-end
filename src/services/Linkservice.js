@@ -7,7 +7,7 @@ async function savelink(credentials){
     throw new Error( 'Please provide all fields');
   }
   else{
-    const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] });
+    const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] }).then();
     if(link){
       throw new Error( 'There is already a link with that name' );
     }
@@ -16,7 +16,6 @@ async function savelink(credentials){
         credentials.visibility = 'visible';
         credentials.status = 'disable';
       }
-
       const newLink = new Link(credentials);
       if(!['visible', 'hidden'].includes(newLink.visibility)) {
         throw new Error( 'Specified visibility is not valid' );
@@ -41,7 +40,7 @@ async function saveLogo(credentials){
     throw new Error( 'Specified status is not valid' );
   }
 
-  const logo = await Logo.findOne({ status: 'active' });
+  const logo = await Logo.findOne({ status: 'active' }).then();
   if(logo){
     updateLogo();
   }
@@ -114,7 +113,7 @@ async function updateLink(linkData){
     );
   }
 
-  const linkActive = await Link.findOne({ status: 'active' });
+  const linkActive = await Link.findOne({ status: 'active' }).then();
   if(linkData.status == 'active'){
     if(linkActive){
       if(linkActive._id != linkData.id){
