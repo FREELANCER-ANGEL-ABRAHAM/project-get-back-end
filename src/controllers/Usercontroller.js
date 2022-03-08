@@ -21,12 +21,15 @@ async function updateUserPassword(req, res, next) {
       throw new Error( 'username must be provided');
     }
     if(!req.body.password){
+      throw new Error( 'actual password must be provided');
+    }
+    if(!req.body.newPassword){
       throw new Error( 'new password must be provided');
     }
     const credentials = {username: req.body.username.toString(), password: req.body.password.toString()};
 
-    await changeUserPassword(credentials);
-    return res.json({ user: req.user});
+    await changeUserPassword(credentials, req.body.newPassword.toString());
+    return res.json({message: 'Update Password Successfully'});
   }catch(err){
     next(err);
   }

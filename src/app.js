@@ -63,6 +63,7 @@ app.use(
     const invalidRoutes = [
       '/',
       '/api/login',
+      '/api/change-password',
       '/api/refresh-token',
       '/api/link',
       '/api/logo'

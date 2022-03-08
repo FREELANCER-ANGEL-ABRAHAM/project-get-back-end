@@ -9,6 +9,9 @@ async function saveCredentialsLinks(req, res, next) {
       if(!req.file){
         credentials.image = "";
       }
+      if(req.body.image){
+        credentials.image = req.body.image;
+      }
       if(!req.body.title){
         credentials.title = "";
       }
