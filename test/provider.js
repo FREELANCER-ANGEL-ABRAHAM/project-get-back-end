@@ -7,8 +7,11 @@ function login(dataLogin){
   if(dataLogin.password === undefined){
     return('Please provide a password');
   }
-  if(dataLogin.username === "" || dataLogin.password ===  ""){
-    return('Thats fields must be completed');
+  if(dataLogin.username === ""){
+    return('Thats fields must be completed, username');
+  }
+  if(dataLogin.password ===  ""){
+    return('Thats fields must be completed, password');
   }
   return 'Login Successfully';
 }
