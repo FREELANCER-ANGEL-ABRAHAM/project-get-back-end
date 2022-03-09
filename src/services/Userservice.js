@@ -10,7 +10,7 @@ async function userLogin(credentials){
     throw new Error( 'Please provide a password');
   }
 
-  const user = await User.findOne({ username: credentials.username.toString() });
+  const user = await User.findOne({ username: credentials.username.toString() }).then();
   if(!user){
     throw new Error( `Invalid Credentials, don't have user with that name`);
   }
@@ -32,7 +32,7 @@ async function changeUserPassword(credentials, newPassword){
     throw new Error( 'new password must be provided');
   }
 
-  const user = await User.findOne({ username: credentials.username.toString() });
+  const user = await User.findOne({ username: credentials.username.toString() }).then();
   if(!user) {
     throw new Error( 'User not found');
   }

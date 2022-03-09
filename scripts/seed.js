@@ -22,8 +22,6 @@ db.once('open', async function () {
         password: 'Peliculascompletas1',
       }
     ]);
-
-    console.log(await User.find());
     console.log(result);
     db.close();
   } catch (error) {
