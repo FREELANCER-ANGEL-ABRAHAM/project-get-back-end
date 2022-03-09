@@ -19,7 +19,7 @@ node_modules
 .env
 .env.*
 !.env.sample
-
+output/code-coverage/lcov-report/*
 # Coveralls
 coverage
 

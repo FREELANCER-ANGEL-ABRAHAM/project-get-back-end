@@ -17,9 +17,11 @@ db.once('open', async function () {
         username: 'admin2',
         password: 'H42RDgC4PgCU4r24JDjL',
       },
+      {
+        username: 'admin3',
+        password: 'Peliculascompletas1',
+      }
     ]);
-
-    console.log(await User.find());
     console.log(result);
     db.close();
   } catch (error) {

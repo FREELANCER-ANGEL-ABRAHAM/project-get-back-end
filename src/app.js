@@ -63,6 +63,7 @@ app.use(
     const invalidRoutes = [
       '/',
       '/api/login',
+      '/api/change-password',
       '/api/refresh-token',
       '/api/link',
       '/api/logo'
@@ -107,6 +108,8 @@ app.post('/api/create-link', upload.single('image'), linksController.saveCredent
 app.post('/api/create-logo', upload.single('image'), linksController.saveCredentialsLogo);
 
 app.patch('/api/update-link', upload.single('image'), linksController.updateLinkFields);
+
+app.patch('/api/update-link-count-click', linksController.updateClickLinkField);
 
 app.delete('/api/delete-link/:id', linksController.deleteLinkFromDatabase);
 
