@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 async function generateAccessToken(user) {
   return jwt.sign(user, config.ACCESS_TOKEN_SECRET, {
-    expiresIn: '6h',
+    expiresIn: '4h',
   });
 }
 

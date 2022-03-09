@@ -1,4 +1,4 @@
-const { savelink, findLinks, findLink, updateLink, findLogo, saveLogo, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink, findLogo, saveLogo, updateClickLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -8,6 +8,9 @@ async function saveCredentialsLinks(req, res, next) {
       }
       if(!req.file){
         credentials.image = "";
+      }
+      if(req.body.image){
+        credentials.image = req.body.image;
       }
       if(!req.body.title){
         credentials.title = "";
@@ -114,6 +117,24 @@ async function updateLinkFields(req, res, next){
     }
 
     const link = await updateLink(linkData);
+
+    return res.json({ link });
+
+  }catch(err){
+    next(err);
+  }
+}
+
+
+async function updateClickLinkField(req, res, next){
+  try{
+    if(!req.body.id){
+      throw new Error( 'Please provide an ID');
+    }
+    const linkData = { ...req.body, };
+
+    const link = await updateClickLink(linkData);
+
     return res.json({ link });
 
   }catch(err){
@@ -130,4 +151,4 @@ async function deleteLinkFromDatabase(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLogoFromDatabase, loadLinkFromDatabase, saveCredentialsLogo, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};
+module.exports = { saveCredentialsLinks, loadLogoFromDatabase, updateClickLinkField, loadLinkFromDatabase, saveCredentialsLogo, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};
