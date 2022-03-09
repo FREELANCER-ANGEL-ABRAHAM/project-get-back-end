@@ -66,7 +66,8 @@ app.use(
       '/api/change-password',
       '/api/refresh-token',
       '/api/link',
-      '/api/logo'
+      '/api/logo',
+      '/api/update-link-count-click'
     ];
 
     if (invalidRoutes.includes(req.originalUrl)) {
