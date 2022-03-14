@@ -13,7 +13,8 @@ const linkSchema = new schema({
   status: {type: String, required: true},
   detail_result: {type: String, required: true},
   contain_result: {type: String, required: true},
-  count_click: {type: Number, required: true}
+  count_click: {type: Number, required: true},
+  active_at: {type: String, default: ''},
 });
 
 linkSchema.plugin(mongoosePaginate);

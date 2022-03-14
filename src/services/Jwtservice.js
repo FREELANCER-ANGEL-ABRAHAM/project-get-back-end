@@ -9,12 +9,12 @@ async function generateAccessToken(user) {
 
 async function generateRefreshToken(user) {
   return jwt.sign(user, config.REFRESH_TOKEN_SECRET, {
-    expiresIn: '1d',
+    expiresIn: '2d',
   });
 }
 
 async function verifyRefreshToken(refreshToken) {
-  return jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET);
+  return await jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET);
 }
 
 module.exports = {
