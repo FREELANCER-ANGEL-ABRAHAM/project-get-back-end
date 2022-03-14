@@ -14,7 +14,7 @@ async function generateRefreshToken(user) {
 }
 
 async function verifyRefreshToken(refreshToken) {
-  return await jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET);
+  return jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET);
 }
 
 module.exports = {
