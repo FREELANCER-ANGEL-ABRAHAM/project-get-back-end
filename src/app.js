@@ -112,6 +112,8 @@ app.patch('/api/update-link', upload.single('image'), linksController.updateLink
 
 app.patch('/api/update-link-count-click', linksController.updateClickLinkField);
 
+app.patch('/api/update-link-active_at', linksController.updateLinkFieldActiveAt);
+
 app.delete('/api/delete-link/:id', linksController.deleteLinkFromDatabase);
 
 
