@@ -7,6 +7,10 @@ async function savelink(credentials){
     throw new Error( 'Please provide all fields');
   }
   else{
+    const name = credentials.name.toString();
+    if(name.length > 52){
+      throw new Error( 'Max length name is 52 character' );
+    }
     const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] }).then();
     if(link){
       throw new Error( 'There is already a link with that name' );

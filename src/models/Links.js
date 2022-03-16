@@ -3,7 +3,7 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const schema = mongoose.Schema;
 
 const linkSchema = new schema({
-  name: {type: String, required: true},
+  name: {type: String, required: true, maxlength: 52},
   title: {type: String, required: false},
   description: {type: String, required: false},
   btn_name: {type: String, required: true},
