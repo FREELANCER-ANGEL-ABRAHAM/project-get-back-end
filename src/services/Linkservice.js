@@ -125,16 +125,6 @@ async function updateLink(linkData){
       },{new: true}
     );
   }
-
-  const linkActive = await Link.findOne({ status: 'active' }).then();
-  if(linkData.status == 'active'){
-    if(linkActive){
-      if(linkActive._id != linkData.id){
-        throw new Error( 'There is already a link active' );
-      }
-    }
-  }
-
   return Link.findByIdAndUpdate(
     linkData.id,
     {

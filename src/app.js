@@ -67,6 +67,7 @@ app.use(
       '/api/refresh-token',
       '/api/link',
       '/api/logo',
+      '/api/link_id/:id',
       '/api/update-link-count-click'
     ];
 
