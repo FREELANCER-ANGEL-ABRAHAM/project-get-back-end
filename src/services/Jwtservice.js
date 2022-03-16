@@ -9,7 +9,7 @@ async function generateAccessToken(user) {
 
 async function generateRefreshToken(user) {
   return jwt.sign(user, config.REFRESH_TOKEN_SECRET, {
-    expiresIn: '1d',
+    expiresIn: '2d',
   });
 }
 
