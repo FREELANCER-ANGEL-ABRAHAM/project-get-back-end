@@ -1,4 +1,4 @@
-const { savelink, findLinks, findLink, updateLink, findLogo, saveLogo, updateClickLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
+const { savelink, findLinks, findLink, updateLink, updateActive_AtkLink, findLogo, saveLogo, updateClickLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -21,7 +21,6 @@ async function saveCredentialsLinks(req, res, next) {
       if(req.file){
         credentials.image = req.file.location;
       }
-
       const link = await savelink(credentials);
       return res.json({ link });
     }catch(err){
@@ -125,6 +124,21 @@ async function updateLinkFields(req, res, next){
   }
 }
 
+async function updateLinkFieldActiveAt(req, res, next){
+  try{
+    if(!req.body.id){
+        throw new Error( 'Please provide an ID');
+    }
+    const linkData = { ...req.body, };
+
+    const link = await updateActive_AtkLink(linkData);
+
+    return res.json({ link });
+
+  }catch(err){
+    next(err);
+  }
+}
 
 async function updateClickLinkField(req, res, next){
   try{
@@ -151,4 +165,4 @@ async function deleteLinkFromDatabase(req, res, next){
   }
 }
 
-module.exports = { saveCredentialsLinks, loadLogoFromDatabase, updateClickLinkField, loadLinkFromDatabase, saveCredentialsLogo, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};
+module.exports = { saveCredentialsLinks, loadLogoFromDatabase, updateLinkFieldActiveAt, updateClickLinkField, loadLinkFromDatabase, saveCredentialsLogo, updateLinkFields, deleteLinkFromDatabase, loadAllLinksFromDataBase, loadLinkById};

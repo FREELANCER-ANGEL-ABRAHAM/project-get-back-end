@@ -88,6 +88,19 @@ async function updateClickLink(linkData){
 
 }
 
+async function updateActive_AtkLink(linkData){
+  if(linkData.active_at === undefined){
+    throw new Error( 'Please provide a data active at link' );
+  }
+  return Link.findByIdAndUpdate(
+    linkData.id,
+    {
+      active_at: linkData.active_at
+    }, {new: true}
+  );
+
+}
+
 async function updateLink(linkData){
   if(linkData.status && linkData.visibility){
     if(!['active', 'disable'].includes(linkData.status)){
@@ -155,4 +168,4 @@ async function deleteLink(req) {
   );
 }
 
-module.exports = { savelink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo, updateClickLink};
+module.exports = { savelink, updateActive_AtkLink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo, updateClickLink};
