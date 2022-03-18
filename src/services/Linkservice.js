@@ -106,6 +106,10 @@ async function updateActive_AtkLink(linkData){
 }
 
 async function updateLink(linkData){
+  const name = linkData.name.toString();
+  if(name.length > 52){
+    throw new Error( 'Max length name is 52 character' );
+  }
   if(linkData.status && linkData.visibility){
     if(!['active', 'disable'].includes(linkData.status)){
       throw new Error( 'Specified status is not valid' );
@@ -129,16 +133,6 @@ async function updateLink(linkData){
       },{new: true}
     );
   }
-
-  const linkActive = await Link.findOne({ status: 'active' }).then();
-  if(linkData.status == 'active'){
-    if(linkActive){
-      if(linkActive._id != linkData.id){
-        throw new Error( 'There is already a link active' );
-      }
-    }
-  }
-
   return Link.findByIdAndUpdate(
     linkData.id,
     {
