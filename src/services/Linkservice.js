@@ -7,6 +7,12 @@ async function savelink(credentials){
     throw new Error( 'Please provide all fields');
   }
   else{
+    const name = credentials.name.toString();
+
+    if(name.length > 52){
+      throw new Error( 'Max length name is 52 character' );
+    }
+
     const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] }).then();
     if(link){
       throw new Error( 'There is already a link with that name' );
@@ -102,6 +108,10 @@ async function updateActive_AtkLink(linkData){
 }
 
 async function updateLink(linkData){
+  const name = linkData.name.toString();
+  if(name.length > 52){
+    throw new Error( 'Max length name is 52 character' );
+  }
   if(linkData.status && linkData.visibility){
     if(!['active', 'disable'].includes(linkData.status)){
       throw new Error( 'Specified status is not valid' );
