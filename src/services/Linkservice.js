@@ -2,6 +2,11 @@ const config = require('../config');
 const Link = require('../models/Links');
 const Logo = require('../models/Logo');
 
+function isValidURL(string) {
+  var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  return (res !== null)
+};
+
 async function savelink(credentials){
   if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined || credentials.count_click == undefined) {
     throw new Error( 'Please provide all fields');
@@ -11,6 +16,10 @@ async function savelink(credentials){
 
     if(name.length > 52){
       throw new Error( 'Max length name is 52 character' );
+    }
+
+    if(!isValidURL(credentials.url)){
+      throw new Error( 'The url provider is not a correct url' );
     }
 
     const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] }).then();
@@ -108,9 +117,11 @@ async function updateActive_AtkLink(linkData){
 }
 
 async function updateLink(linkData){
-  const name = linkData.name.toString();
-  if(name.length > 52){
-    throw new Error( 'Max length name is 52 character' );
+  if(linkData.name){
+    const name = linkData.name.toString();
+    if(name.length > 52){
+      throw new Error( 'Max length name is 52 character' );
+    }
   }
   if(linkData.status && linkData.visibility){
     if(!['active', 'disable'].includes(linkData.status)){
