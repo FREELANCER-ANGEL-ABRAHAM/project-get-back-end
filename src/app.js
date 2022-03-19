@@ -60,16 +60,34 @@ app.use(
     secret: config.ACCESS_TOKEN_SECRET,
     algorithms: ['HS256'],
   }).unless(function (req) {
-    const invalidRoutes = [
-      '/',
-      '/api/login',
-      '/api/change-password',
-      '/api/refresh-token',
-      '/api/link',
-      '/api/logo',
-      '/api/link_id/:id',
-      '/api/update-link-count-click'
-    ];
+    var routeUpdate= '/api/link_id/:id';
+    var routerMatcher = new RegExp(routeUpdate.replace(/:[^\s/]+/g, '([\\w-]+)'));
+    var url = req.originalUrl;
+    var result = url.match(routerMatcher);
+    var invalidRoutes = [];
+    if(result !== null){
+      invalidRoutes = [
+        '/',
+        '/api/login',
+        '/api/change-password',
+        '/api/refresh-token',
+        '/api/link',
+        '/api/logo',
+        result.input,
+        '/api/update-link-count-click'
+      ];
+    }
+    else{
+       invalidRoutes = [
+        '/',
+        '/api/login',
+        '/api/change-password',
+        '/api/refresh-token',
+        '/api/link',
+        '/api/logo',
+        '/api/update-link-count-click'
+      ];
+    }
 
     if (invalidRoutes.includes(req.originalUrl)) {
       return true;
