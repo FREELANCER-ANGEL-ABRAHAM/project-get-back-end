@@ -13,7 +13,6 @@ async function savelink(credentials){
   }
   else{
     const name = credentials.name.toString();
-
     if(name.length > 52){
       throw new Error( 'Max length name is 52 character' );
     }
