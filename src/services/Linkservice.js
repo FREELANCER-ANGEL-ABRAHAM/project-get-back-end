@@ -3,9 +3,9 @@ const Link = require('../models/Links');
 const Logo = require('../models/Logo');
 
 function isValidURL(string) {
-  var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-  return (res !== null)
-};
+  var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)/g);
+  return (res !== null);
+}
 
 async function savelink(credentials){
   if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined || credentials.count_click == undefined) {
