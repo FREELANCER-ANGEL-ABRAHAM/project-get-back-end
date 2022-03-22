@@ -11,44 +11,34 @@ on:
 name: Main Workflow
 jobs:
   build:
-
     name: Build, Test and Analyze
     runs-on: ubuntu-latest
     steps:
-
       - name: Use Node.js ${{ matrix.node-version }}
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
-
+          node-version: '16'
       - name: Install dependencies
         run: npm ci
-
       - name: Build npm
       - run: npm run build --if-present
-
       - name: Test npm
         run: npm run test
-
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
           path: dist
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
-
   sonarcloud:
-
     name: Sonarcloud Scan
     runs-on: ubuntu-latest
     steps:
-
     - name: clone repository
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
