@@ -24,12 +24,6 @@ jobs:
     - run: npm run build --if-present
     - name: Test and Coverage Report
       run: npm run test --if-present
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        path: dist/**/
-    - name: Download all workflow run artifacts
-      uses: actions/download-artifact@v3
 
   sonarcloud:
     runs-on: ubuntu-latest
