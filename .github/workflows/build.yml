@@ -27,7 +27,7 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
-        path: dist
+        path: dist/**/
     - name: Download all workflow run artifacts
       uses: actions/download-artifact@v3
 
