@@ -22,9 +22,9 @@ node_modules
 scripts/*
 
 # Coveralls
-coverage
-output/code-coverage/lcov-report/*
-test-report.html
+coverage/lcov-report/*
+coverage/clover.xml
+coverage/coverage-final.json
 
 # Benchmarking
 benchmarks/graphs
