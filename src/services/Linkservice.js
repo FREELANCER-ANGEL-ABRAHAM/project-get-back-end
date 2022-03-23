@@ -11,35 +11,31 @@ async function saveLink(credentials){
   if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined || credentials.count_click == undefined) {
     throw new Error( 'Please provide all fields');
   }
+  const name = credentials.name.toString();
+  if(name.length > 52){
+    throw new Error( 'Max length name is 52 character' );
+  }
+  if(!isValidURL(credentials.url)){
+    throw new Error( 'The url provider is not a correct url' );
+  }
+
+  const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] }).then();
+  if(link){
+    throw new Error( 'There is already a link with that name' );
+  }
   else{
-    const name = credentials.name.toString();
-    if(name.length > 52){
-      throw new Error( 'Max length name is 52 character' );
+    if(credentials.visibility == undefined || credentials.status == undefined){
+      credentials.visibility = 'visible';
+      credentials.status = 'disable';
     }
 
-    if(!isValidURL(credentials.url)){
-      throw new Error( 'The url provider is not a correct url' );
+    if(!['active', 'disable'].includes(credentials.status) || !['visible', 'hidden'].includes(credentials.visibility)){
+      throw new Error( 'Specified status or visibility are not valid' );
     }
+    const newLink = new Link(credentials);
 
-    const link = await Link.findOne({ $and: [{name: credentials.name}, {visibility: 'visible'}] }).then();
-    if(link){
-      throw new Error( 'There is already a link with that name' );
-    }
-    else{
-      if(credentials.visibility == undefined || credentials.status == undefined){
-        credentials.visibility = 'visible';
-        credentials.status = 'disable';
-      }
-      const newLink = new Link(credentials);
-      if(!['visible', 'hidden'].includes(newLink.visibility)) {
-        throw new Error( 'Specified visibility is not valid' );
-      }
-      else if(!['active', 'disable'].includes(newLink.status)){
-        throw new Error( 'Specified status is not valid' );
-      }
-      newLink.save();
-      return newLink;
-    }
+    newLink.save();
+    return newLink;
   }
 }
 
