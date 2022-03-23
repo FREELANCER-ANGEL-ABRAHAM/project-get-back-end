@@ -1,4 +1,4 @@
-const { savelink, findLinks, findLink, updateLink, updateActive_AtkLink, findLogo, saveLogo, updateClickLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
+const { saveLink, findLinks, findLink, updateLink, updateActive_AtkLink, findLogo, saveLogo, updateClickLink, findLinksbyName, deleteLink, findLinkById} = require('../services/Linkservice');
 
 async function saveCredentialsLinks(req, res, next) {
     try{
@@ -21,7 +21,7 @@ async function saveCredentialsLinks(req, res, next) {
       if(req.file){
         credentials.image = req.file.location;
       }
-      const link = await savelink(credentials);
+      const link = await saveLink(credentials);
       return res.json({ link });
     }catch(err){
         next(err);
