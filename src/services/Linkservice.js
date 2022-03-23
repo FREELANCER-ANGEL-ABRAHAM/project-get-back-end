@@ -7,7 +7,7 @@ function isValidURL(string) {
   return (res !== null);
 }
 
-async function savelink(credentials){
+async function saveLink(credentials){
   if (credentials.name == undefined || credentials.btn_name== undefined || credentials.url == undefined || credentials.detail_result == undefined || credentials.contain_result == undefined || credentials.count_click == undefined) {
     throw new Error( 'Please provide all fields');
   }
@@ -178,4 +178,4 @@ async function deleteLink(req) {
   );
 }
 
-module.exports = { savelink, updateActive_AtkLink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo, updateClickLink};
+module.exports = { saveLink, updateActive_AtkLink, findLinks, updateLink, findLink, findLogo, findLinksbyName, deleteLink, findLinkById, saveLogo, updateClickLink};
