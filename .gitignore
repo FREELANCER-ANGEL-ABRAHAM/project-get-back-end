@@ -19,11 +19,12 @@ node_modules
 .env
 .env.*
 !.env.sample
-output/code-coverage/lcov-report/*
 scripts/*
 
 # Coveralls
 coverage
+output/code-coverage/lcov-report/*
+test-report.html
 
 # Benchmarking
 benchmarks/graphs
