@@ -20,7 +20,7 @@ node_modules
 .env.*
 !.env.sample
 output/code-coverage/lcov-report/*
-scripts/seed.js
+scripts/*
 
 # Coveralls
 coverage
