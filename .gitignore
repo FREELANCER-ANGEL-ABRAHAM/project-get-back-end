@@ -25,7 +25,6 @@ scripts/*
 coverage/lcov-report/*
 coverage/clover.xml
 coverage/coverage-final.json
-test-report.xml
 
 # Benchmarking
 benchmarks/graphs
