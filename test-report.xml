@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\u30240\Documents\Angel\Freelancer\project-get-back-end\test\Api.test.js">
+    <testCase name="USER LOGIN USER validation ERROR LOGIN user empty field Message" duration="1"/>
+    <testCase name="USER LOGIN USER validation ERROR LOGIN user empty field Message" duration="0"/>
+    <testCase name="USER LOGIN USER validation ERROR LOGIN user missing field Status without username" duration="0"/>
+    <testCase name="USER LOGIN USER validation ERROR LOGIN user missing field Status without password" duration="1"/>
+    <testCase name="USER LOGIN user successfully data Successfully login" duration="0"/>
+    <testCase name="USER CHANGE PASSWORD Error validate provide fields (Username)" duration="0"/>
+    <testCase name="USER CHANGE PASSWORD Error validate provide fields(Password)" duration="0"/>
+    <testCase name="USER CHANGE PASSWORD Error validate empty fields(username)" duration="1"/>
+    <testCase name="USER CHANGE PASSWORD Error validate empty fields(password)" duration="0"/>
+    <testCase name="USER CHANGE PASSWORD Error validate provide a new password" duration="0"/>
+    <testCase name="USER CHANGE PASSWORD Error validate empty data to new password" duration="1"/>
+    <testCase name="USER CHANGE PASSWORD Successfully password change" duration="0"/>
+    <testCase name="Links CREATE A LINK LINK VALIDATION ERROR Error missing fields" duration="0"/>
+    <testCase name="Links CREATE A LINK LINK VALIDATION ERROR Error empty data fields" duration="0"/>
+    <testCase name="Links CREATE A LINK LINK VALIDATION ERROR Error data validate status field" duration="0"/>
+    <testCase name="Links CREATE A LINK LINK VALIDATION ERROR Error data validate visibility field" duration="0"/>
+    <testCase name="Links CREATE A LINK SUCCESSFULLY LINK Successfully create link" duration="5"/>
+    <testCase name="Links MODIFY A LINK LINK VALIDATION UPDATE ERROR Error data id field" duration="0"/>
+    <testCase name="Links MODIFY A LINK LINK VALIDATION UPDATE ERROR Wrong id provider" duration="0"/>
+    <testCase name="Links MODIFY A LINK LINK VALIDATION UPDATE ERROR Error data validate status field" duration="0"/>
+    <testCase name="Links MODIFY A LINK LINK VALIDATION UPDATE ERROR Error data validate visibility field" duration="1"/>
+    <testCase name="Links MODIFY A LINK LINK SUCCESSFULLY UPDATE Successfully update" duration="0"/>
+    <testCase name="Links DELETE A LINK DELETE VALIDATION ERROR LINK VALIDATION ID ERROR" duration="0"/>
+    <testCase name="Links DELETE A LINK DELETE VALIDATION ERROR LINK SUCCESSFULLY DELETED" duration="0"/>
+    <testCase name="LOGO CREATE LOGO LOGO VALIDATION ERROR ERROR STATUS" duration="1"/>
+    <testCase name="LOGO CREATE LOGO LOGO VALIDATION ERROR ERROR IMAGE PROVIDE" duration="0"/>
+    <testCase name="LOGO CREATE LOGO LOGO CREATE SUCCESSFULL CREATE SUCCESSFULLY" duration="1"/>
+  </file>
+</testExecutions>
