@@ -23,6 +23,14 @@ jobs:
       run: npm ci
     - name: Test and Coverage Report
       run: npm run test
+    - name: Copy folder content recursively to remote
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        password: ${{ secrets.PASSWORD }}
+        source: "."
+        target: "project-get-back-end"
 
   sonarcloud:
     runs-on: ubuntu-latest
