@@ -23,7 +23,8 @@ jobs:
       - name: Test and Coverage Report
         run: npm run test
   deploy:
-    if: ${{ github.ref == 'refs/heads/feature/pipeline' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Copy folder content recursively to remote
