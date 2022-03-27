@@ -10,7 +10,7 @@ on:
 name: Main Workflow
 jobs:
   build:
-    if: ${{ github.ref == 'refs/heads/feature/pipeline' }}
+    if: ${{ github.ref == 'refs/heads/feature/*' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
