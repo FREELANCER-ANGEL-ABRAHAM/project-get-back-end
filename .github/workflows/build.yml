@@ -22,20 +22,8 @@ jobs:
         run: npm ci
       - name: Test and Coverage Report
         run: npm run test
-  deploy:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Copy folder content recursively to remote
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          password: ${{ secrets.PASSWORD }}
-          source: "."
-          target: "project-get-back-end"
   sonarcloud:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: clone repository
@@ -47,4 +35,17 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: sonarcloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy folder content recursively to remote
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          source: "."
+          target: "project-get-back-end"
 
