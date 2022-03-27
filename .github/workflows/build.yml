@@ -14,24 +14,24 @@ jobs:
       if:  startsWith(github.head_ref, 'feature/')
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Test and Coverage Report
-        run: npm run test
-      - name: Copy folder content recursively to remote
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          password: ${{ secrets.PASSWORD }}
-          source: "."
-          target: "project-get-back-end"
+        - uses: actions/checkout@v2
+        - name: Use Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: '16.x'
+            cache: 'npm'
+        - name: Install dependencies
+          run: npm ci
+        - name: Test and Coverage Report
+          run: npm run test
+        - name: Copy folder content recursively to remote
+          uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USER }}
+            password: ${{ secrets.PASSWORD }}
+            source: "."
+            target: "project-get-back-end"
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
