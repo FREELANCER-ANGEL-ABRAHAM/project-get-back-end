@@ -49,7 +49,7 @@ jobs:
         script: |
           cd project-get-back-end
           git checkout -f main
-          git fetch --all
-          git reset --hard origin/main
+          git fetch
+          git reset --hard ${{ github.sha }}
           npm Install
           forever restartall
