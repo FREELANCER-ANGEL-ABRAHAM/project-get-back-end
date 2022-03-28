@@ -34,3 +34,5 @@ Launches the test runner in the interactive watch mode.
 ### `npm run seed`
 
 Init the server with two users admin created in your database by default. This will allow you to populate your database from your CLI (command line interface) by typing “npm run seed” when we want to add, drop, or edit tables. You want your database to be populated before your server starts so that the information can be loaded on the site.
+
+yes
