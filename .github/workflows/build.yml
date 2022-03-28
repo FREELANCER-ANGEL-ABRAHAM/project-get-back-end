@@ -50,6 +50,6 @@ jobs:
           cd project-get-back-end
           git checkout -f main
           git fetch
-          git reset --hard $GITHUB_SHA
+          git reset --hard ${{ github.sha }}
           npm Install
           forever restartall
